@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2003
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Football-League.Api", "Football-League.Api\Football-League.Api.csproj", "{9C4D371B-5F87-4AF5-8C9A-ACB057BD912B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Football-League.Api", "Football-League.Api\Football-League.Api.csproj", "{9C4D371B-5F87-4AF5-8C9A-ACB057BD912B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Football-League.Models", "Football-League.Models\Football-League.Models.csproj", "{EC15FC3C-A54A-40EB-92DA-E35CEEEB7481}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Football-League.Models", "Football-League.Models\Football-League.Models.csproj", "{EC15FC3C-A54A-40EB-92DA-E35CEEEB7481}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Football-League.Services", "Football-League.Services\Football-League.Services.csproj", "{4D344A1F-D62D-4B8C-A251-5C625C156163}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Football-League.Services", "Football-League.Services\Football-League.Services.csproj", "{4D344A1F-D62D-4B8C-A251-5C625C156163}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Football-League.Data", "Football-League.Data\Football-League.Data.csproj", "{C93D37D1-BEC4-44BA-9236-AA7E642F9F23}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Football-League.Share", "Football-League.Data\Football-League.Share.csproj", "{C93D37D1-BEC4-44BA-9236-AA7E642F9F23}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

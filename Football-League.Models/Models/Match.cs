@@ -6,10 +6,12 @@ namespace Football_League.Models.Models
 {
     public class Match
     {
-        public long Id { get; set; }
+        public int Id { get; set; }
         public DateTime Date { get; set; }
         public int Round { get; set; }
         public int HostScore { get; set; }
         public int AwayScore { get; set; }
+        public virtual ICollection<TeamMatch> TeamMatches { get; set; }
+        public virtual ICollection<MatchPlayer> MatchPlayers { get; set; }
     }
 }

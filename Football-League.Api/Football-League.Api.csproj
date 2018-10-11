@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Football-League.Models\Football-League.Models.csproj" />
     <ProjectReference Include="..\Football-League.Services\Football-League.Services.csproj" />
   </ItemGroup>
 
