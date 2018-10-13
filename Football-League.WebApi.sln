@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Football-League.Models", "F
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Football-League.Services", "Football-League.Services\Football-League.Services.csproj", "{4D344A1F-D62D-4B8C-A251-5C625C156163}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Football-League.Share", "Football-League.Data\Football-League.Share.csproj", "{C93D37D1-BEC4-44BA-9236-AA7E642F9F23}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Football-League.Repositories", "Football-League.Data\Football-League.Repositories.csproj", "{C93D37D1-BEC4-44BA-9236-AA7E642F9F23}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

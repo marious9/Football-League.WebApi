@@ -5,7 +5,7 @@ using Football_League.Models.Models;
 using Microsoft.EntityFrameworkCore;
 
 
-namespace Football_League.Models.Data
+namespace Football_League.Repositories.Data
 {
     public class AppDbContext : DbContext
     {

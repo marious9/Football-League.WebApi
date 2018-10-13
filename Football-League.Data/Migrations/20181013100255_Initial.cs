@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Football_League.Models.Migrations
+namespace Football_League.Data.Migrations
 {
     public partial class Initial : Migration
     {
