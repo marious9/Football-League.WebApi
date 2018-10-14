@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Football_League.Models.Models
+namespace Football_League.Models.Domain
 {
     public class Statistic
     {

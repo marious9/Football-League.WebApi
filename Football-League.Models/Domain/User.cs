@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
 
-namespace Football_League.Models.Models
+namespace Football_League.Models.Domain
 {
     public class User : IdentityUser
     {
@@ -13,6 +13,5 @@ namespace Football_League.Models.Models
         public string Firstname { get; set; }
         public string Lastname { get; set; }
         public virtual ICollection<League> Leagues { get; set; }
-
     }
 }

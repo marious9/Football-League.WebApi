@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Football_League.Models.Models
+namespace Football_League.Models.Domain
 {
     public class Match
     {
@@ -11,7 +11,6 @@ namespace Football_League.Models.Models
         public int Round { get; set; }
         public int HostScore { get; set; }
         public int AwayScore { get; set; }
-        public virtual ICollection<TeamMatch> TeamMatches { get; set; }
         public virtual ICollection<MatchPlayer> MatchPlayers { get; set; }
     }
 }

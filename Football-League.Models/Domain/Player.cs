@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Football_League.Models.Models
+namespace Football_League.Models.Domain
 {
     public class Player
     {
@@ -11,7 +11,6 @@ namespace Football_League.Models.Models
         public string Firstname { get; set; }
         public string Lastname { get; set; }
         public Team Team { get; set; }
-        public virtual ICollection<TeamMatch> TeamMatches { get; set; }
         public virtual ICollection<MatchPlayer> MatchPlayers { get; set; }
     }
 }
