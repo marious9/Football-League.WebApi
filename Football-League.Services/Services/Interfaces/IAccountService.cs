@@ -14,5 +14,6 @@ namespace Football_League.Services.Services.Interfaces
         Task LogOut();
         Task<ResponseDto<BaseModelDto>> ChangePassword(string userId, ChangePasswordBindingModel model);
         Task<ResponseDto<BaseModelDto>> EditProfile(string userId, UserProfileBindingModel model);
+        Task<ResponseDto<GetUserDto>> GetUser(string userId);
     }
 }

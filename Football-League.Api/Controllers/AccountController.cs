@@ -19,6 +19,19 @@ namespace Football_League.Api.Controllers
             _accountService = accountService;
         }
 
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> GetUser(string userId)
+        {
+            var result = await _accountService.GetUser(userId);
+
+            if (result.ErrorOccurred)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+
         [HttpPost("Register")]
         [AllowAnonymous]
         public async Task<IActionResult> Register([FromBody] RegisterBindingModel model)

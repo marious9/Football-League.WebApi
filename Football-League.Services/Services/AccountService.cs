@@ -1,4 +1,5 @@
-﻿using Football_League.Models.BindingModels;
+﻿using AutoMapper;
+using Football_League.Models.BindingModels;
 using Football_League.Models.Domain;
 using Football_League.Models.Dto;
 using Football_League.Services.Services.Interfaces;
@@ -18,11 +19,14 @@ namespace Football_League.Services.Services
     {
         private readonly UserManager<User> _userManager;
         private readonly IHttpContextAccessor _httpContext;
+        private readonly IMapper _mapper;
 
-        public AccountService(UserManager<User> userManager, IHttpContextAccessor httpContext)
+
+        public AccountService(UserManager<User> userManager, IHttpContextAccessor httpContext, IMapper mapper)
         {
             _userManager = userManager;
             _httpContext = httpContext;
+            _mapper = mapper;
         }
 
         public async Task<ResponseDto<BaseModelDto>> Register(RegisterBindingModel model)
@@ -140,6 +144,19 @@ namespace Football_League.Services.Services
             }
             return response;
         }
-    
+
+        public async Task<ResponseDto<GetUserDto>> GetUser(string userId)
+        {
+            var response = new ResponseDto<GetUserDto>();
+            var user = await _userManager.FindByNameAsync(userId);
+
+            if (user == null)
+            {
+                response.Errors.Add("Nie znaleziona użytkownika w bazie danych.");
+            }
+            response.Object = new GetUserDto();
+            response.Object = _mapper.Map<User, GetUserDto>(user);
+            return response;
+        }
     }
 }

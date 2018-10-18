@@ -6,6 +6,7 @@ using Football_League.Repositories.Data;
 using Football_League.Services;
 using Football_League.Services.Services;
 using Football_League.Services.Services.Interfaces;
+using Football_League.Services.Services.Mappers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -38,6 +39,7 @@ namespace Football_League.Api
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<IConfigurationService, ConfigurationService>();
+            services.AddSingleton(AutoMapperConfig.Initialize());
 
             services.AddSwaggerGen(c =>
             {
