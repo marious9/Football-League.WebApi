@@ -1,6 +1,7 @@
 ﻿using Football_League.Data.Interfaces;
 using Football_League.Models.Domain;
 using Football_League.Repositories.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,28 +22,28 @@ namespace Football_League.Data.Repositories
         public async Task DeleteAsync(League League)
         {
             _appDbContext.Leagues.Remove(League);
-            _appDbContext.SaveChanges();
-            await Task.CompletedTask;
+            await _appDbContext.SaveChangesAsync();
         }
 
         public async Task EditAsync(League League)
         {
             _appDbContext.Leagues.Update(League);
-            _appDbContext.SaveChanges();
-            await Task.CompletedTask;
+            await _appDbContext.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<League>> GetAllAsync()
-            => await Task.FromResult(_appDbContext.Leagues);
+        public IEnumerable<League> GetAll()
+            => _appDbContext.Leagues.Include(x => x.Teams);
 
-        public async Task<League> GetByIdAsync(int id)
-            => await Task.FromResult(_appDbContext.Leagues.SingleOrDefault(l => l.Id == id));
+        public League GetByName(string name)
+            => _appDbContext.Leagues.Include(x => x.Teams).SingleOrDefault(l => l.Name == name);
+
+        public League GetById(int id)
+            => _appDbContext.Leagues.Include(x => x.Teams).SingleOrDefault(l => l.Id == id);
 
         public async Task InsertAsync(League League)
         {
-            _appDbContext.Leagues.Add(League);
-            _appDbContext.SaveChanges();
-            await Task.CompletedTask;
+            await _appDbContext.Leagues.AddAsync(League);
+            await _appDbContext.SaveChangesAsync();
         }
     }
 }

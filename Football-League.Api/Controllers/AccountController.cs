@@ -8,8 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Football_League.Api.Controllers
-{
-
+{    
     public class AccountController : BaseController
     {
         private readonly IAccountService _accountService;

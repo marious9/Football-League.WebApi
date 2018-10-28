@@ -21,6 +21,8 @@ namespace Football_League.Services.Services
         private readonly IHttpContextAccessor _httpContext;
         private readonly IMapper _mapper;
 
+        private const string IDENTITY_APPLICATION = "Identity.Application";
+
 
         public AccountService(UserManager<User> userManager, IHttpContextAccessor httpContext, IMapper mapper)
         {
@@ -35,13 +37,13 @@ namespace Football_League.Services.Services
             var userFindByName = await _userManager.FindByNameAsync(model.Username);
             if (userFindByName != null)
             {
-                response.Errors.Add("Użytkownik o takiej nazwie już istnieje.");
+                response.Errors.Add(ServiceErrors.USER_NAME_ALREADY_EXISTS);
             }
 
             var userFingByEmail = await _userManager.FindByEmailAsync(model.Email);
             if (userFingByEmail != null)
             {
-                response.Errors.Add("Użytkownik o takim e-mail'u już istnieje.");
+                response.Errors.Add(ServiceErrors.USER_EMAIL_ALREADY_EXISTS);
             }
 
             if (userFindByName == null && userFingByEmail == null)
@@ -80,20 +82,20 @@ namespace Football_League.Services.Services
             var checkPassword = await _userManager.CheckPasswordAsync(user, model.Password);
             if (user != null && checkPassword)
             {
-                var identity = new ClaimsIdentity("Identity.Application");
+                var identity = new ClaimsIdentity(IDENTITY_APPLICATION);
                 identity.AddClaim(new Claim(ClaimTypes.Name, user.Id));
                 identity.AddClaim(new Claim(ClaimTypes.Email, user.Email));
 
-                await _httpContext.HttpContext.SignInAsync("Identity.Application", new ClaimsPrincipal(identity), new AuthenticationProperties { IsPersistent = true });
+                await _httpContext.HttpContext.SignInAsync(IDENTITY_APPLICATION, new ClaimsPrincipal(identity), new AuthenticationProperties { IsPersistent = true });
                 return response;
             }
-            response.Errors.Add("Błędny login lub hasło.");
+            response.Errors.Add(ServiceErrors.USER_INVALID_LOGIN_OR_PASSWORD);
             return response;
         }
 
         public async Task LogOut()
         {
-            await _httpContext.HttpContext.SignOutAsync("Identity.Application");
+            await _httpContext.HttpContext.SignOutAsync(IDENTITY_APPLICATION);
         }
 
         public async Task<ResponseDto<BaseModelDto>> ChangePassword(string userId, ChangePasswordBindingModel model)
@@ -103,7 +105,7 @@ namespace Football_League.Services.Services
 
             if (user == null)
             {
-                response.Errors.Add("Nie znaleziona użytkownika w bazie danych.");
+                response.Errors.Add(ServiceErrors.USER_DOESNT_EXIST);
             }
 
             var result = await _userManager.ChangePasswordAsync(user, model.Password, model.NewPassword);
@@ -126,7 +128,7 @@ namespace Football_League.Services.Services
 
             if (user == null)
             {
-                response.Errors.Add("Nie znaleziona użytkownika w bazie danych.");
+                response.Errors.Add(ServiceErrors.USER_DOESNT_EXIST);
             }
 
             user.Firstname = model.Firstname;
@@ -152,7 +154,7 @@ namespace Football_League.Services.Services
 
             if (user == null)
             {
-                response.Errors.Add("Nie znaleziona użytkownika w bazie danych.");
+                response.Errors.Add(ServiceErrors.USER_DOESNT_EXIST);
             }
             response.Object = new GetUserDto();
             response.Object = _mapper.Map<User, GetUserDto>(user);
