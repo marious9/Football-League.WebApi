@@ -10,5 +10,6 @@ namespace Football_League.Models.Domain
         public string Name { get; set; }
         public virtual ICollection<Player> Players { get; set; }
         public virtual ICollection<Match> Matches { get; set; }
+        public virtual League League { get; set; }
     }
 }

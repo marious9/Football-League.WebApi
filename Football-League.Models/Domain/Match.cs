@@ -12,5 +12,6 @@ namespace Football_League.Models.Domain
         public int HostScore { get; set; }
         public int AwayScore { get; set; }
         public virtual ICollection<MatchPlayer> MatchPlayers { get; set; }
+        public virtual Team Team { get; set; }
     }
 }

@@ -41,20 +41,25 @@ namespace Football_League.Repositories.Data
             modelBuilder.Entity<League>()
                 .HasKey(le => le.Id);
             modelBuilder.Entity<League>()
-                .HasMany(l => l.Teams);
+                .HasMany(l => l.Teams)
+                .WithOne(t => t.League);
 
             modelBuilder.Entity<User>()
                 .HasKey(u => u.Id);
             modelBuilder.Entity<User>()
-                .HasMany(u => u.Leagues);
+                .HasMany(u => u.Leagues)
+                .WithOne(l => l.User);
 
 
             modelBuilder.Entity<Team>()
                 .HasKey(t => t.Id);
             modelBuilder.Entity<Team>()
-                .HasMany(p => p.Players);
+                .HasMany(p => p.Players)
+                .WithOne(t => t.Team);
+
             modelBuilder.Entity<Team>()
-                .HasMany(t => t.Matches);
+                .HasMany(t => t.Matches)
+                .WithOne(m => m.Team);
 
             modelBuilder.Entity<MatchPlayer>()
                 .HasKey(mp => new { mp.MatchId, mp.PlayerId });
