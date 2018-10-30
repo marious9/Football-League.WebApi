@@ -12,6 +12,7 @@ namespace Football_League.Services.Services.Mappers
         public static IMapper Initialize()
                 => new MapperConfiguration(cfg =>
                 {
+                    cfg.CreateMap<League, LeagueDto>();
                     cfg.CreateMap<User, GetUserDto>();
         }).CreateMapper();
     }
