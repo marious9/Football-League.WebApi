@@ -33,14 +33,11 @@ namespace Football_League.Data.Repositories
             await Task.CompletedTask;
         }
 
-        public async Task<IEnumerable<Team>> GetAllAsync()
-            => await Task.FromResult(_appDbContext.Teams.Include(t => t.Matches));
+        public IEnumerable<Team> GetAll()
+            => _appDbContext.Teams.Include(t => t.Matches);
 
-        public async Task<Team> GetByIdAsync(int id)
-            => await Task.FromResult(
-                                _appDbContext.Teams
-                                .Include(m => m.Matches)
-                                .SingleOrDefault(m => m.Id == id));
+        public Team GetByIdAsync(int id)
+            => _appDbContext.Teams.Include(m => m.Matches).SingleOrDefault(m => m.Id == id);
 
         public async Task InsertAsync(Team Team)
         {

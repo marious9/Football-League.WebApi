@@ -8,8 +8,8 @@ namespace Football_League.Data.Interfaces
 {
     public interface ITeamRepository
     {
-        Task<Team> GetByIdAsync(int id);
-        Task<IEnumerable<Team>> GetAllAsync();
+        Team GetById(int id);
+        IEnumerable<Team> GetAll();
         Task InsertAsync(Team Team);
         Task EditAsync(Team Team);
         Task DeleteAsync(Team Team);

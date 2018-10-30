@@ -36,6 +36,7 @@ namespace Football_League.Api
         {
             PassedConfig.Config(Configuration, services);
 
+            services.AddTransient<ITeamService, TeamService>();
             services.AddTransient<ILeagueService, LeagueService>();
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<IAccountService, AccountService>();

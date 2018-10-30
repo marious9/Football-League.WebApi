@@ -42,8 +42,6 @@ namespace Football_League.Services.Services
             await _leagueRepository.InsertAsync(league);
 
             return response;
-
-
         }
 
         public async Task<ResponseDto<BaseModelDto>> EditLeagueAsync(int leagueId, EditLeagueBindingModel model)
@@ -60,7 +58,6 @@ namespace Football_League.Services.Services
             await _leagueRepository.EditAsync(league);
 
             return resposne;
-
         }
 
         public ResponseDto<LeagueDto> GetLeague(int leagueId)
@@ -77,7 +74,6 @@ namespace Football_League.Services.Services
             response.Object = _mapper.Map<LeagueDto>(league);
 
             return response;
-
         }
 
         public ResponseDto<LeaguesDto> GetAllLeagues()

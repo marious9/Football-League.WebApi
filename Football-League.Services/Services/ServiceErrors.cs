@@ -13,5 +13,7 @@ namespace Football_League.Services.Services
         public const string USER_EMAIL_ALREADY_EXISTS = "Użytkownik o podanym Email'u już istnieje.";
         public const string USER_DOESNT_EXIST = "Użytkownik o podanej nazwie nie istnieje.";
         public const string USER_INVALID_LOGIN_OR_PASSWORD = "Błędny login lub hasło.";
+
+        public const string TEAM_WITH_THAT_NAME_ALREADY_EXISTS = "Drużyna o takiej nazwie już istnieje";
     }
 }
