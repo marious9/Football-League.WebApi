@@ -58,8 +58,11 @@ namespace Football_League.Repositories.Data
                 .WithOne(t => t.Team);
 
             modelBuilder.Entity<Team>()
-                .HasMany(t => t.Matches)
-                .WithOne(m => m.Team);
+                .HasMany(t => t.HostMatches)
+                .WithOne(m => m.Host);
+            modelBuilder.Entity<Team>()
+                .HasMany(t => t.AwayMatches)
+                .WithOne(m => m.Away);
 
             modelBuilder.Entity<MatchPlayer>()
                 .HasKey(mp => new { mp.MatchId, mp.PlayerId });

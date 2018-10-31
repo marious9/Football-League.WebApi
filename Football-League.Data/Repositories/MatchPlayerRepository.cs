@@ -21,28 +21,25 @@ namespace Football_League.Data.Repositories
         public async Task DeleteAsync(MatchPlayer MatchPlayer)
         {
             _appDbContext.MatchPlayers.Remove(MatchPlayer);
-            _appDbContext.SaveChanges();
-            await Task.CompletedTask;
+            await _appDbContext.SaveChangesAsync();
         }
 
         public async Task EditAsync(MatchPlayer MatchPlayer)
         {
             _appDbContext.MatchPlayers.Update(MatchPlayer);
-            _appDbContext.SaveChanges();
-            await Task.CompletedTask;
+            await _appDbContext.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<MatchPlayer>> GetAllAsync()
-            => await Task.FromResult(_appDbContext.MatchPlayers);
+        public IEnumerable<MatchPlayer> GetAll()
+            => _appDbContext.MatchPlayers;
 
-        public async Task<MatchPlayer> GetByIdAsync(int matchId, int playerId)
-            => await Task.FromResult(_appDbContext.MatchPlayers.SingleOrDefault(l => l.MatchId == matchId && l.PlayerId == playerId));
+        public MatchPlayer GetById(int matchId, int playerId)
+            => _appDbContext.MatchPlayers.SingleOrDefault(l => l.MatchId == matchId && l.PlayerId == playerId);
 
         public async Task InsertAsync(MatchPlayer MatchPlayer)
         {
             _appDbContext.MatchPlayers.Add(MatchPlayer);
-            _appDbContext.SaveChanges();
-            await Task.CompletedTask;
+            await _appDbContext.SaveChangesAsync();
         }
     }
 }

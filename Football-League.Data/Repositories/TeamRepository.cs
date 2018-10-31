@@ -22,28 +22,25 @@ namespace Football_League.Data.Repositories
         public async Task DeleteAsync(Team Team)
         {
             _appDbContext.Teams.Remove(Team);
-            _appDbContext.SaveChanges();
-            await Task.CompletedTask;
+            await _appDbContext.SaveChangesAsync();
         }
 
         public async Task EditAsync(Team Team)
         {
             _appDbContext.Teams.Update(Team);
-            _appDbContext.SaveChanges();
-            await Task.CompletedTask;
+            await _appDbContext.SaveChangesAsync();
         }
 
         public IEnumerable<Team> GetAll()
-            => _appDbContext.Teams.Include(t => t.Matches);
+            => _appDbContext.Teams.Include(t => t.AwayMatches).Include(t => t.HostMatches);
 
-        public Team GetByIdAsync(int id)
-            => _appDbContext.Teams.Include(m => m.Matches).SingleOrDefault(m => m.Id == id);
+        public Team GetById(int id)
+            => _appDbContext.Teams.Include(t => t.AwayMatches).Include(t => t.HostMatches).SingleOrDefault(m => m.Id == id);
 
         public async Task InsertAsync(Team Team)
         {
             _appDbContext.Teams.Add(Team);
-            _appDbContext.SaveChanges();
-            await Task.CompletedTask;
+            await _appDbContext.SaveChangesAsync();
         }
     }
 }

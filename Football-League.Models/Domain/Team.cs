@@ -9,7 +9,8 @@ namespace Football_League.Models.Domain
         public int Id { get; set; }
         public string Name { get; set; }
         public virtual ICollection<Player> Players { get; set; }
-        public virtual ICollection<Match> Matches { get; set; }
+        public virtual ICollection<Match> HostMatches { get; set; }
+        public virtual ICollection<Match> AwayMatches { get; set; }
         public virtual League League { get; set; }
     }
 }

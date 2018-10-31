@@ -8,8 +8,8 @@ namespace Football_League.Data.Interfaces
 {
     public interface IPlayerRepository
     {
-        Task<Player> GetByIdAsync(int id);
-        Task<IEnumerable<Player>> GetAllAsync();
+        Player GetById(int id);
+        IEnumerable<Player> GetAll();
         Task InsertAsync(Player Player);
         Task EditAsync(Player Player);
         Task DeleteAsync(Player Player);

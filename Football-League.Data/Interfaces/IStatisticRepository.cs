@@ -8,8 +8,8 @@ namespace Football_League.Data.Interfaces
 {
     public interface IStatisticRepository
     {
-        Task<Statistic> GetByIdAsync(int id);
-        Task<IEnumerable<Statistic>> GetAllAsync();
+        Statistic GetById(int id);
+        IEnumerable<Statistic> GetAll();
         Task InsertAsync(Statistic Statistic);
         Task EditAsync(Statistic Statistic);
         Task DeleteAsync(Statistic Statistic);
