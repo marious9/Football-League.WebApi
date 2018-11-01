@@ -32,10 +32,10 @@ namespace Football_League.Data.Repositories
         }
 
         public IEnumerable<Player> GetAll()
-            => _appDbContext.Players.Include(p => p.MatchPlayers);
+            => _appDbContext.Players.Include(p => p.MatchPlayers).Include(p => p.Team);
 
         public Player GetById(int id)
-            => _appDbContext.Players.Include(p => p.MatchPlayers).SingleOrDefault(p => p.Id == id);
+            => _appDbContext.Players.Include(p => p.MatchPlayers).Include(p => p.Team).SingleOrDefault(p => p.Id == id);
 
         public async Task InsertAsync(Player Player)
         {

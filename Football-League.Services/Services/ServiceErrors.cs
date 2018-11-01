@@ -6,6 +6,8 @@ namespace Football_League.Services.Services
 {
     public static class ServiceErrors
     {
+        public const string STH_WENT_WRONG = "Coś poszło nie tak.";
+
         public const string LEAGUE_ALREADY_EXISTS = "Liga o podanej nazwie już istnieje.";
         public const string LEAGUE_DOESNT_EXIST = "Liga nie istnieje.";
 
@@ -15,5 +17,8 @@ namespace Football_League.Services.Services
         public const string USER_INVALID_LOGIN_OR_PASSWORD = "Błędny login lub hasło.";
 
         public const string TEAM_WITH_THAT_NAME_ALREADY_EXISTS = "Drużyna o takiej nazwie już istnieje.";
+        public const string TEAM_DOESNT_EXIST = "Drużyna nie istnieje.";
+
+        public const string PLAYER_DOESNT_EXIST = "Zawodnik nie istnieje.";
     }
 }

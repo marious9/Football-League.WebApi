@@ -32,10 +32,10 @@ namespace Football_League.Data.Repositories
         }
 
         public IEnumerable<Team> GetAll()
-            => _appDbContext.Teams.Include(t => t.AwayMatches).Include(t => t.HostMatches);
+            => _appDbContext.Teams.Include(t => t.AwayMatches).Include(t => t.HostMatches).Include(t => t.League);
 
         public Team GetById(int id)
-            => _appDbContext.Teams.Include(t => t.AwayMatches).Include(t => t.HostMatches).SingleOrDefault(m => m.Id == id);
+            => _appDbContext.Teams.Include(t => t.AwayMatches).Include(t => t.HostMatches).Include(t => t.League).SingleOrDefault(m => m.Id == id);
 
         public async Task InsertAsync(Team Team)
         {

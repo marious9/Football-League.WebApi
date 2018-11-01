@@ -13,6 +13,6 @@ namespace Football_League.Services.Services.Interfaces
         Task<ResponseDto<BaseModelDto>> EditTeamsync(int teamId, EditTeamBindingModel model);
         Task<ResponseDto<BaseModelDto>> DeleteTeamAsync(int teamId);
         ResponseDto<TeamDto> GetTeam(int teamId);
-        ResponseDto<TeamsDto> GetAllTeam();
+        ResponseDto<TeamsDto> GetAllTeams();
     }
 }
