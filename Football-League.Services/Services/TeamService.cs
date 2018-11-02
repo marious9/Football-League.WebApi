@@ -80,12 +80,31 @@ namespace Football_League.Services.Services
                 response.Errors.Add(ServiceErrors.TEAM_DOESNT_EXIST);
                 return response;
             }
-            //TODO mapper probably cant see leagueDto inside TeamDto/ I didnt check it.
 
             response.Object = _mapper.Map<TeamDto>(team);
 
             return response;
 
+        }
+
+        public ResponseDto<TeamsDto> GetTeamsFromLeague(int leagueId)
+        {
+            var response = new ResponseDto<TeamsDto>
+            {
+                Object = new TeamsDto()
+            };
+
+            var teams = _teamRepository.GetTeamsFromLeague(leagueId);
+
+            if(teams == null)
+            {
+                response.Errors.Add(ServiceErrors.LEAGUE_DOESNT_EXIST);
+                return response;
+            }
+
+            response.Object.Teams = _mapper.Map<List<TeamDto>>(teams);
+
+            return response;
         }
 
         public async Task<ResponseDto<BaseModelDto>> InsertTeamAsync(int leagueId, AddTeamBindingModel model)
@@ -99,12 +118,6 @@ namespace Football_League.Services.Services
                 return response;
             }
 
-            var team = new Team
-            {
-                League = league,
-                Name = model.Name
-            };
-
             var teams = _teamRepository.GetAll().ToList();
             var exists = teams.Exists(t => t.Name == model.Name);
             if(exists)
@@ -112,6 +125,12 @@ namespace Football_League.Services.Services
                 response.Errors.Add(ServiceErrors.TEAM_WITH_THAT_NAME_ALREADY_EXISTS);
                 return response;
             }
+
+            var team = new Team
+            {
+                League = league,
+                Name = model.Name
+            };
 
             await _teamRepository.InsertAsync(team);
 

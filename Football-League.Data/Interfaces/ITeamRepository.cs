@@ -10,6 +10,7 @@ namespace Football_League.Data.Interfaces
     {
         Team GetById(int id);
         IEnumerable<Team> GetAll();
+        IEnumerable<Team> GetTeamsFromLeague(int leagueId);
         Task InsertAsync(Team Team);
         Task EditAsync(Team Team);
         Task DeleteAsync(Team Team);

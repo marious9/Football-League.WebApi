@@ -14,5 +14,6 @@ namespace Football_League.Services.Services.Interfaces
         Task<ResponseDto<BaseModelDto>> DeleteTeamAsync(int teamId);
         ResponseDto<TeamDto> GetTeam(int teamId);
         ResponseDto<TeamsDto> GetAllTeams();
+        ResponseDto<TeamsDto> GetTeamsFromLeague(int leagueId);
     }
 }

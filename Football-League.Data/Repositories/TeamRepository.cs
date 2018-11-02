@@ -37,6 +37,9 @@ namespace Football_League.Data.Repositories
         public Team GetById(int id)
             => _appDbContext.Teams.Include(t => t.AwayMatches).Include(t => t.HostMatches).Include(t => t.League).SingleOrDefault(m => m.Id == id);
 
+        public IEnumerable<Team> GetTeamsFromLeague(int leagueId)
+            => GetAll().Where(t => t.League.Id == leagueId);
+
         public async Task InsertAsync(Team Team)
         {
             _appDbContext.Teams.Add(Team);
