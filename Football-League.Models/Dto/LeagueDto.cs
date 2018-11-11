@@ -9,5 +9,11 @@ namespace Football_League.Models.Dto
         public int Id { get; set; }
         public string Name { get; set; }
         public int Quantity { get; set; }
+        public List<TeamForGetPlayerDto> Teams { get; set; }
+
+        public LeagueDto()
+        {
+            Teams = new List<TeamForGetPlayerDto>();
+        }
     }
 }

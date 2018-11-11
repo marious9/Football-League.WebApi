@@ -34,7 +34,7 @@ namespace Football_League.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            PassedConfig.Config(Configuration, services);
+            
 
             services.AddTransient<IMatchService, MatchService>();
             services.AddTransient<IPlayerService, PlayerService>();
@@ -50,7 +50,15 @@ namespace Football_League.Api
                 c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
             });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);         
+            services.AddCors(options => options.AddPolicy("CorsPolicy", builder =>
+            {
+                builder.AllowAnyHeader();
+                builder.AllowAnyMethod();
+                builder.AllowAnyOrigin();
+                builder.AllowCredentials();
+            }));
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            PassedConfig.Config(Configuration, services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -71,6 +79,8 @@ namespace Football_League.Api
             {
                 app.UseHsts();
             }
+
+            app.UseCors("CorsPolicy");
 
             app.UseHttpsRedirection();
             app.UseAuthentication();

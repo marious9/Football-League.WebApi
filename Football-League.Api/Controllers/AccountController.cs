@@ -18,6 +18,7 @@ namespace Football_League.Api.Controllers
             _accountService = accountService;
         }
 
+        [AllowAnonymous]
         [HttpGet("{userId}")]
         public async Task<IActionResult> GetUser(string userId)
         {

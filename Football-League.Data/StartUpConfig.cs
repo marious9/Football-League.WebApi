@@ -56,9 +56,11 @@ namespace Football_League.Data
                     }
                     return Task.CompletedTask;
                 };
-
                 opt.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.None;
-                opt.ExpireTimeSpan = TimeSpan.FromDays(1);
+                opt.Cookie.SecurePolicy = Microsoft.AspNetCore.Http.CookieSecurePolicy.None;
+                opt.Cookie.HttpOnly = false;
+                opt.Cookie.Name = "FootballApp";
+                opt.ExpireTimeSpan = TimeSpan.FromDays(30);
             });
         }
     }

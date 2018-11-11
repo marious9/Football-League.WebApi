@@ -62,7 +62,10 @@ namespace Football_League.Services.Services
 
         public ResponseDto<LeagueDto> GetLeague(int leagueId)
         {
-            var response = new ResponseDto<LeagueDto>();
+            var response = new ResponseDto<LeagueDto>()
+            {
+                Object = new LeagueDto()
+            };
 
             var league = _leagueRepository.GetById(leagueId);
             if(league == null)
