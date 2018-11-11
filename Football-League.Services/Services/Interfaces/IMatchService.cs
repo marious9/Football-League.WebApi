@@ -12,7 +12,8 @@ namespace Football_League.Services.Services.Interfaces
         Task<ResponseDto<BaseModelDto>> InsertMatchAsync(int leagueId, AddMatchBindingModel model);
         Task<ResponseDto<BaseModelDto>> EditMatchAsync(int matchId, EditMatchBindingModel model);
         Task<ResponseDto<BaseModelDto>> DeleteMatchAsync(int matchId);
-        ResponseDto<MatchDto> GetPlayer(int playerId);
-        ResponseDto<MatchesDto> GetAllPlayers();
+        ResponseDto<MatchDto> GetMatch(int matchId);
+        ResponseDto<MatchesDto> GetAllMatches();
+        ResponseDto<MatchesDto> GetMatchesFromLeague(int leagueId);
     }
 }

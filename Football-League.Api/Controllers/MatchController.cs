@@ -1,5 +1,6 @@
 ﻿using Football_League.Models.BindingModels;
 using Football_League.Services.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,50 @@ namespace Football_League.Api.Controllers
         {
             _matchService = matchService;
         }
+
+        [AllowAnonymous]
+        [HttpGet("{leagueId}")]
+        public IActionResult GetMatchesFromLeague(int leagueId)
+        {
+            var result = _matchService.GetMatchesFromLeague(leagueId);
+
+            if (result.ErrorOccurred)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("{matchId}")]
+        public IActionResult GetMatch(int matchId)
+        {
+            var result = _matchService.GetMatch(matchId);
+
+            if (result.ErrorOccurred)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public IActionResult GetAllMatches()
+        {
+            var result = _matchService.GetAllMatches();
+
+            if (result.ErrorOccurred)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+
+
 
         [HttpPost("{leagueId}")]
         public async Task<IActionResult> InsertMatch(int leagueId, AddMatchBindingModel model)

@@ -8,6 +8,7 @@ namespace Football_League.Services.Services
     {
         public const string MATCH_TEAMS_IDS_CANT_BE_EQUAL = "Id drużyn muszą być różne.";
         public const string MATCH_TEAMS_ARENT_IN_THE_SAME_LEAGUE = "Drużyny nie grają w tej samej lidze.";
+        public const string MATCH_DOES_NOT_EXIST = "Mecz nie istnieje.";
 
         public const string STH_WENT_WRONG = "Coś poszło nie tak.";
 
@@ -21,6 +22,7 @@ namespace Football_League.Services.Services
 
         public const string TEAM_WITH_THAT_NAME_ALREADY_EXISTS = "Drużyna o takiej nazwie już istnieje.";
         public const string TEAM_DOESNT_EXIST = "Drużyna nie istnieje.";
+        public const string TEAM_THER_IS_ENOUGH_TEAMS_IN_THAT_LEAGUE = "Liga zawiera ustaloną wcześniej liczebność.";
 
         public const string PLAYER_DOESNT_EXIST = "Zawodnik nie istnieje.";
     }

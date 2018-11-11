@@ -21,30 +21,27 @@ namespace Football_League.Data.Repositories
         public async Task DeleteAsync(Match Match)
         {
             _appDbContext.Matches.Remove(Match);
-            _appDbContext.SaveChanges();
-            await Task.CompletedTask;
+            await _appDbContext.SaveChangesAsync();
         }
 
         public async Task EditAsync(Match Match)
         {
             _appDbContext.Matches.Update(Match);
-            _appDbContext.SaveChanges();
-            await Task.CompletedTask;
+            await _appDbContext.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Match>> GetAllAsync()
-            => await Task.FromResult(_appDbContext.Matches.Include(m => m.MatchPlayers));
+        public IEnumerable<Match> GetAll()
+            => _appDbContext.Matches.Include(m => m.MatchPlayers).Include(m => m.Away)
+                                    .Include(m => m.Host).Include(m => m.League);
 
-        public async Task<Match> GetByIdAsync(int id)
-            => await Task.FromResult(
-                                _appDbContext.Matches.Include(m => m.MatchPlayers)
-                                .SingleOrDefault(m => m.Id == id));
+        public Match GetById(int id)
+            => _appDbContext.Matches.Include(m => m.MatchPlayers).Include(m => m.Away)
+                                    .Include(m=>m.Host).Include(m=>m.League).SingleOrDefault(m => m.Id == id);
 
         public async Task InsertAsync(Match Match)
         {
             _appDbContext.Matches.Add(Match);
-            _appDbContext.SaveChanges();
-            await Task.CompletedTask;
+            await _appDbContext.SaveChangesAsync();
         }
     }
 }

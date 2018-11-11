@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Football_League.Models.Dto
 {
-    public class TeamForGetPlayerDto
+    public class TeamLessDetailsDto
     {
         public int Id { get; set; }
         public string Name { get; set; }

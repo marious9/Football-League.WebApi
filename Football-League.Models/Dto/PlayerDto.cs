@@ -10,6 +10,6 @@ namespace Football_League.Models.Dto
         public DateTime BirthDate { get; set; }
         public string Firstname { get; set; }
         public string Lastname { get; set; }
-        public TeamForGetPlayerDto Team { get; set; }
+        public TeamLessDetailsDto Team { get; set; }
     }
 }

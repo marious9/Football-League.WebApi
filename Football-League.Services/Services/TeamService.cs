@@ -117,6 +117,13 @@ namespace Football_League.Services.Services
                 response.Errors.Add(ServiceErrors.LEAGUE_DOESNT_EXIST);
                 return response;
             }
+            
+            var teamsQuantity = league.Teams.Count;
+            if(teamsQuantity >= league.Quantity)
+            {
+                response.Errors.Add(ServiceErrors.TEAM_THER_IS_ENOUGH_TEAMS_IN_THAT_LEAGUE);
+                return response;
+            }
 
             var teams = _teamRepository.GetAll().ToList();
             var exists = teams.Exists(t => t.Name == model.Name);

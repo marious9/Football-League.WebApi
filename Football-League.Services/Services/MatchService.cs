@@ -39,12 +39,41 @@ namespace Football_League.Services.Services
             throw new NotImplementedException();
         }
 
-        public ResponseDto<MatchesDto> GetAllPlayers()
+        public ResponseDto<MatchesDto> GetAllMatches()
         {
-            throw new NotImplementedException();
+            var response = new ResponseDto<MatchesDto>
+            {
+                Object = new MatchesDto()
+            };
+
+            var matches = _matchRepository.GetAll();
+
+            response.Object.Matches = _mapper.Map<List<MatchDto>>(matches);
+
+            return response;
         }
 
-        public ResponseDto<MatchDto> GetPlayer(int playerId)
+        public ResponseDto<MatchDto> GetMatch(int matchId)
+        {
+            var response = new ResponseDto<MatchDto>()
+            {
+                Object = new MatchDto()
+            };
+
+            var match = _matchRepository.GetById(matchId);
+            if(match == null)
+            {
+                response.Errors.Add(ServiceErrors.MATCH_DOES_NOT_EXIST);
+                return response;
+            }
+
+            response.Object = _mapper.Map<MatchDto>(match);
+
+            return response;
+
+        }
+
+        public ResponseDto<MatchesDto> GetMatchesFromLeague(int leagueId)
         {
             throw new NotImplementedException();
         }

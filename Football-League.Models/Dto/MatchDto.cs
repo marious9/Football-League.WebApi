@@ -11,8 +11,15 @@ namespace Football_League.Models.Dto
         public int Round { get; set; }
         public int HostScore { get; set; }
         public int AwayScore { get; set; }
-        public TeamDto Host { get; set; }
-        public TeamDto Away { get; set; }
+        public TeamLessDetailsDto Host { get; set; }
+        public TeamLessDetailsDto Away { get; set; }
         public LeagueDto League { get; set; }
+
+        public MatchDto()
+        {
+            Host = new TeamLessDetailsDto();
+            Away = new TeamLessDetailsDto();
+            League = new LeagueDto();
+        }
     }
 }
