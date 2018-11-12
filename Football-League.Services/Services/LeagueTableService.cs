@@ -36,7 +36,6 @@ namespace Football_League.Services.Services
             var matches = getMatchesrequest.Object.Matches;
 
             var getTeamsrequest = _leagueService.GetLeague(leagueId);
-
             if (getTeamsrequest.ErrorOccurred)
             {
                 response.Errors = getTeamsrequest.Errors;
@@ -47,20 +46,21 @@ namespace Football_League.Services.Services
 
             teams.ForEach(team =>
             {
-                var tableRow = new TableRowDto();
+
                 var teamMatchesHost = matches.Where(m => m.Host.Id == team.Id);
                 var teamMatchesAway = matches.Where(m => m.Away.Id == team.Id);
-
-                tableRow.TeamId = team.Id;
-                tableRow.Name = team.Name;
-                tableRow.MatchesPlayed = teamMatchesHost.Count() + teamMatchesAway.Count();
-                tableRow.MatchesWon = CountWins(teamMatchesHost, teamMatchesAway);
-                tableRow.MatchesDrawn = CountDraws(teamMatchesHost, teamMatchesAway);
-                tableRow.MatchesLost = CountDefeats(teamMatchesHost, teamMatchesAway);
-                tableRow.Points = CountPoints(teamMatchesHost, teamMatchesAway);
-                tableRow.GoalsScored = CountScoredGoals(teamMatchesHost, teamMatchesAway);
-                tableRow.GoalsLost = CountLostGoals(teamMatchesHost, teamMatchesAway);
-
+                var tableRow = new LeagueTableRowDto
+                {
+                    TeamId = team.Id,
+                    Name = team.Name,
+                    MatchesPlayed = teamMatchesHost.Count() + teamMatchesAway.Count(),
+                    MatchesWon = CountWins(teamMatchesHost, teamMatchesAway),
+                    MatchesDrawn = CountDraws(teamMatchesHost, teamMatchesAway),
+                    MatchesLost = CountDefeats(teamMatchesHost, teamMatchesAway),
+                    Points = CountPoints(teamMatchesHost, teamMatchesAway),
+                    GoalsScored = CountScoredGoals(teamMatchesHost, teamMatchesAway),
+                    GoalsLost = CountLostGoals(teamMatchesHost, teamMatchesAway)
+                };
                 response.Object.Teams.Add(tableRow);
             });
 

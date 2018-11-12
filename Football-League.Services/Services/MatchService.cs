@@ -14,29 +14,53 @@ namespace Football_League.Services.Services
 {
     public class MatchService : IMatchService
     {
-        private readonly ITeamService _teamService;
         private readonly ITeamRepository _teamRepository;
         private readonly IMatchRepository _matchRepository;
         private readonly ILeagueRepository _leagueRepository;
         private readonly IMapper _mapper;
 
-        public MatchService(ITeamService teamService, IMatchRepository matchRepository, ILeagueRepository leagueRepository, ITeamRepository teamRepository, IMapper mapper)
+        public MatchService(IMatchRepository matchRepository, ILeagueRepository leagueRepository, ITeamRepository teamRepository, IMapper mapper)
         {
-            _teamService = teamService;
             _teamRepository = teamRepository;
             _matchRepository = matchRepository;
             _leagueRepository = leagueRepository;
             _mapper = mapper;
         }
 
-        public Task<ResponseDto<BaseModelDto>> DeleteMatchAsync(int matchId)
+        public async Task<ResponseDto<BaseModelDto>> DeleteMatchAsync(int matchId)
         {
-            throw new NotImplementedException();
+            var response = new ResponseDto<BaseModelDto>();
+
+            var match = _matchRepository.GetById(matchId);
+            if(match == null)
+            {
+                response.Errors.Add(ServiceErrors.MATCH_DOES_NOT_EXIST);
+                return response;
+            }
+
+            await _matchRepository.DeleteAsync(match);
+
+            return response;
         }
 
-        public Task<ResponseDto<BaseModelDto>> EditMatchAsync(int matchId, EditMatchBindingModel model)
+        public async Task<ResponseDto<BaseModelDto>> EditMatchAsync(int matchId, EditMatchBindingModel model)
         {
-            throw new NotImplementedException();
+            var response = new ResponseDto<BaseModelDto>();
+
+            var match = _matchRepository.GetById(matchId);
+            if (match == null)
+            {
+                response.Errors.Add(ServiceErrors.MATCH_DOES_NOT_EXIST);
+                return response;
+            }
+            match.Date = model.Date;
+            match.Round = model.Round;
+            match.HostScore = model.HostScore;
+            match.AwayScore = model.AwayScore;
+
+            await _matchRepository.EditAsync(match);
+
+            return response;
         }
 
         public ResponseDto<MatchesDto> GetAllMatches()
@@ -137,6 +161,22 @@ namespace Football_League.Services.Services
             {
                 response.Errors.Add(ServiceErrors.TEAM_DOESNT_EXIST);
                 return response;
+            }
+
+            var matches = _matchRepository.GetAll().Where(l => l.League.Id == leagueId);
+            if(matches != null)
+            {
+                var hostMatches = matches.Where(m => m.Host.Id == model.HostId || m.Away.Id == model.HostId);
+                var awayMatches = matches.Where(m => m.Host.Id == model.AwayId || m.Away.Id == model.AwayId);
+
+                var hostHasMatchInGivenRound = hostMatches.Any(m => m.Round == model.Round);
+                var awayHasMatchInGivenRound = awayMatches.Any(m => m.Round == model.Round);
+
+                if(hostHasMatchInGivenRound || awayHasMatchInGivenRound)
+                {
+                    response.Errors.Add(ServiceErrors.MATCH_ONE_OF_TEAMS_ALREADY_PLAYS_MATCH_IN_GIVEN_ROUND);
+                    return response;
+                }
             }
 
             var match = new Match

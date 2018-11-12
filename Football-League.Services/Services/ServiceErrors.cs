@@ -6,6 +6,7 @@ namespace Football_League.Services.Services
 {
     public static class ServiceErrors
     {
+        public const string MATCH_ONE_OF_TEAMS_ALREADY_PLAYS_MATCH_IN_GIVEN_ROUND = "Co najmniej jedna z drużyn gra już mecz w tej kolejce.";
         public const string MATCH_TEAMS_IDS_CANT_BE_EQUAL = "Id drużyn muszą być różne.";
         public const string MATCH_TEAMS_ARENT_IN_THE_SAME_LEAGUE = "Drużyny nie grają w tej samej lidze.";
         public const string MATCH_DOES_NOT_EXIST = "Mecz nie istnieje.";

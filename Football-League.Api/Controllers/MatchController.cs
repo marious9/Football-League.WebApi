@@ -60,12 +60,36 @@ namespace Football_League.Api.Controllers
             return Ok(result);
         }
 
-
-
         [HttpPost("{leagueId}")]
         public async Task<IActionResult> InsertMatch(int leagueId, AddMatchBindingModel model)
         {
             var result = await _matchService.InsertMatchAsync(leagueId, model);
+
+            if (result.ErrorOccurred)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+
+        [HttpPut("{matchId}")]
+        public async Task<IActionResult> EditMatch(int matchId, EditMatchBindingModel model)
+        {
+            var result = await _matchService.EditMatchAsync(matchId, model);
+
+            if (result.ErrorOccurred)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+
+        [HttpDelete("{matchId}")]
+        public async Task<IActionResult> DeleteMatch(int matchId)
+        {
+            var result = await _matchService.DeleteMatchAsync(matchId);
 
             if (result.ErrorOccurred)
             {

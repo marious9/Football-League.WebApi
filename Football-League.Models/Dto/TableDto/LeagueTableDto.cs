@@ -6,11 +6,11 @@ namespace Football_League.Models.Dto.TableDto
 {
     public class LeagueTableDto: BaseModelDto
     {
-        public List<TableRowDto> Teams { get; set; }
+        public List<LeagueTableRowDto> Teams { get; set; }
 
         public LeagueTableDto()
         {
-            Teams = new List<TableRowDto>();
+            Teams = new List<LeagueTableRowDto>();
         }
     }
 }
