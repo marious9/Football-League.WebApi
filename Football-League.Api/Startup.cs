@@ -34,8 +34,8 @@ namespace Football_League.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
 
+            services.AddTransient<ILeagueTableService, LeagueTableService>();
             services.AddTransient<IMatchService, MatchService>();
             services.AddTransient<IPlayerService, PlayerService>();
             services.AddTransient<ITeamService, TeamService>();

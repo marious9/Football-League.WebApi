@@ -75,7 +75,21 @@ namespace Football_League.Services.Services
 
         public ResponseDto<MatchesDto> GetMatchesFromLeague(int leagueId)
         {
-            throw new NotImplementedException();
+            var response = new ResponseDto<MatchesDto>()
+            {
+                Object = new MatchesDto()
+            };
+
+            var matches = _matchRepository.GetAll().Where(m => m.League.Id == leagueId);
+            if(matches == null)
+            {
+                response.Errors.Add(ServiceErrors.MATCH_THERE_IS_NO_MATCHES_FROM_THAT_LEAGUE);
+                return response;
+            }
+
+            response.Object.Matches = _mapper.Map<List<MatchDto>>(matches);
+
+            return response;
         }
 
         public async Task<ResponseDto<BaseModelDto>> InsertMatchAsync(int leagueId, AddMatchBindingModel model)

@@ -9,6 +9,7 @@ namespace Football_League.Services.Services
         public const string MATCH_TEAMS_IDS_CANT_BE_EQUAL = "Id drużyn muszą być różne.";
         public const string MATCH_TEAMS_ARENT_IN_THE_SAME_LEAGUE = "Drużyny nie grają w tej samej lidze.";
         public const string MATCH_DOES_NOT_EXIST = "Mecz nie istnieje.";
+        public const string MATCH_THERE_IS_NO_MATCHES_FROM_THAT_LEAGUE = "Nie znaleziono meczów dla tej ligii.";
 
         public const string STH_WENT_WRONG = "Coś poszło nie tak.";
 

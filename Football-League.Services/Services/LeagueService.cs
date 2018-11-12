@@ -3,6 +3,7 @@ using Football_League.Data.Interfaces;
 using Football_League.Models.BindingModels;
 using Football_League.Models.Domain;
 using Football_League.Models.Dto;
+using Football_League.Models.Dto.TableDto;
 using Football_League.Services.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -14,11 +15,13 @@ namespace Football_League.Services.Services
 {
     public class LeagueService : ILeagueService
     {
+        private readonly IMatchService _matchService;
         private readonly ILeagueRepository _leagueRepository;
         private readonly IMapper _mapper;
 
-        public LeagueService(ILeagueRepository leagueRepository, IMapper mapper)
+        public LeagueService(ILeagueRepository leagueRepository, IMapper mapper, IMatchService matchService)
         {
+            _matchService = matchService;
             _leagueRepository = leagueRepository;
             _mapper = mapper;
         }
