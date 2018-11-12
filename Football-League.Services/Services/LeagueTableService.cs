@@ -49,6 +49,9 @@ namespace Football_League.Services.Services
 
                 var teamMatchesHost = matches.Where(m => m.Host.Id == team.Id);
                 var teamMatchesAway = matches.Where(m => m.Away.Id == team.Id);
+
+                var scoredGoals = CountScoredGoals(teamMatchesHost, teamMatchesAway);
+                var lostGoals = CountLostGoals(teamMatchesHost, teamMatchesAway);
                 var tableRow = new LeagueTableRowDto
                 {
                     TeamId = team.Id,
@@ -58,11 +61,17 @@ namespace Football_League.Services.Services
                     MatchesDrawn = CountDraws(teamMatchesHost, teamMatchesAway),
                     MatchesLost = CountDefeats(teamMatchesHost, teamMatchesAway),
                     Points = CountPoints(teamMatchesHost, teamMatchesAway),
-                    GoalsScored = CountScoredGoals(teamMatchesHost, teamMatchesAway),
-                    GoalsLost = CountLostGoals(teamMatchesHost, teamMatchesAway)
+                    GoalsScored = scoredGoals,
+                    GoalsLost = lostGoals,
+                    GoalsBilans = scoredGoals - lostGoals
                 };
                 response.Object.Teams.Add(tableRow);
             });
+
+            response.Object.Teams = response.Object.Teams
+                                                   .OrderByDescending(t => t.Points)
+                                                   .ThenByDescending(t => t.GoalsBilans)
+                                                   .ThenBy(t=> t.Name).ToList();
 
             return response;
         }

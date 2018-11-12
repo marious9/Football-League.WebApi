@@ -11,25 +11,10 @@ namespace Football_League.Api.Controllers
     public class TeamController : BaseController
     {
         private readonly ITeamService _teamService;
-        private readonly ILeagueTableService _leagueTableService;
 
-        public TeamController(ITeamService teamService, ILeagueTableService leagueTableService)
+        public TeamController(ITeamService teamService)
         {
-            _leagueTableService = leagueTableService;
             _teamService = teamService;
-        }
-
-        [HttpGet("{leagueId}")]
-        public IActionResult GetTable(int leagueId)
-        {
-            var result = _leagueTableService.GetLeagueTable(leagueId);
-
-            if (result.ErrorOccurred)
-            {
-                return BadRequest(result);
-            }
-
-            return Ok(result);
         }
 
         [HttpGet]

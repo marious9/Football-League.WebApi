@@ -14,6 +14,7 @@ namespace Football_League.Models.Dto.TableDto
         public int MatchesLost { get; set; }
         public int GoalsLost { get; set; }
         public int GoalsScored { get; set; }
+        public int GoalsBilans { get; set; }
         public int Points { get; set; }
     }
 }
