@@ -52,7 +52,6 @@ namespace Football_League.Services.Services
                 {
                     Id = model.Username,
                     Email = model.Email,
-                    PasswordHash = model.Password,
                     Firstname = model.Firstname,
                     Lastname = model.Lastname,
                     UserName = model.Username,

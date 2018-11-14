@@ -4,14 +4,16 @@ using Football_League.Repositories.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Football_League.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181114211756_SeedUserWithoutPassword")]
+    partial class SeedUserWithoutPassword
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -73,11 +75,11 @@ namespace Football_League.Data.Migrations
                     b.ToTable("Matches");
 
                     b.HasData(
-                        new { Id = 1, AwayId = 2, AwayScore = 1, Date = new DateTime(2018, 11, 14, 22, 42, 9, 140, DateTimeKind.Local), HostId = 11, HostScore = 7, LeagueId = 1, Round = 1 },
-                        new { Id = 2, AwayId = 10, AwayScore = 4, Date = new DateTime(2018, 11, 14, 22, 42, 9, 141, DateTimeKind.Local), HostId = 3, HostScore = 1, LeagueId = 1, Round = 1 },
-                        new { Id = 3, AwayId = 9, AwayScore = 3, Date = new DateTime(2018, 11, 14, 22, 42, 9, 141, DateTimeKind.Local), HostId = 4, HostScore = 2, LeagueId = 1, Round = 1 },
-                        new { Id = 4, AwayId = 8, AwayScore = 3, Date = new DateTime(2018, 11, 14, 22, 42, 9, 141, DateTimeKind.Local), HostId = 5, HostScore = 3, LeagueId = 1, Round = 1 },
-                        new { Id = 5, AwayId = 7, AwayScore = 8, Date = new DateTime(2018, 11, 14, 22, 42, 9, 141, DateTimeKind.Local), HostId = 6, HostScore = 1, LeagueId = 1, Round = 1 }
+                        new { Id = 1, AwayId = 2, AwayScore = 1, Date = new DateTime(2018, 11, 14, 22, 17, 56, 362, DateTimeKind.Local), HostId = 11, HostScore = 7, LeagueId = 1, Round = 1 },
+                        new { Id = 2, AwayId = 10, AwayScore = 4, Date = new DateTime(2018, 11, 14, 22, 17, 56, 364, DateTimeKind.Local), HostId = 3, HostScore = 1, LeagueId = 1, Round = 1 },
+                        new { Id = 3, AwayId = 9, AwayScore = 3, Date = new DateTime(2018, 11, 14, 22, 17, 56, 364, DateTimeKind.Local), HostId = 4, HostScore = 2, LeagueId = 1, Round = 1 },
+                        new { Id = 4, AwayId = 8, AwayScore = 3, Date = new DateTime(2018, 11, 14, 22, 17, 56, 364, DateTimeKind.Local), HostId = 5, HostScore = 3, LeagueId = 1, Round = 1 },
+                        new { Id = 5, AwayId = 7, AwayScore = 8, Date = new DateTime(2018, 11, 14, 22, 17, 56, 364, DateTimeKind.Local), HostId = 6, HostScore = 1, LeagueId = 1, Round = 1 }
                     );
                 });
 
@@ -212,7 +214,7 @@ namespace Football_League.Data.Migrations
                     b.ToTable("Users");
 
                     b.HasData(
-                        new { Id = "masensio", AccessFailedCount = 0, ConcurrencyStamp = "8dd1f172-e07e-4511-ab52-ef0aebf17aae", Email = "marco@asensio.pl", EmailConfirmed = false, Firstname = "Marco", Lastname = "Asensio", LockoutEnabled = false, PasswordHash = "AQAAAAEAACcQAAAAEMnz1mM3f8mrMN3n/5aPSdB0gRFQd2+GEr6/+WfptLdU+frBA3DjqB9V+FwubO5TTg==", PhoneNumberConfirmed = false, TwoFactorEnabled = false, UserName = "marcoAsensio" }
+                        new { Id = "masensio", AccessFailedCount = 0, ConcurrencyStamp = "f1e7ec08-1a1c-4246-91b8-c2ea1496f3d4", Email = "marco@asensio.pl", EmailConfirmed = false, Firstname = "Marco", Lastname = "Asensio", LockoutEnabled = false, PhoneNumberConfirmed = false, TwoFactorEnabled = false, UserName = "marcoAsensio" }
                     );
                 });
 

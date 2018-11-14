@@ -78,6 +78,164 @@ namespace Football_League.Repositories.Data
                 .HasMany(mp => mp.Statistics);
 
 
+            var user = new User
+            {
+                Id = "masensio",
+                Email = "marco@asensio.pl",
+                Firstname = "Marco",
+                Lastname = "Asensio",
+                UserName = "marcoAsensio",
+                PasswordHash = "AQAAAAEAACcQAAAAEMnz1mM3f8mrMN3n/5aPSdB0gRFQd2+GEr6/+WfptLdU+frBA3DjqB9V+FwubO5TTg=="
+            };
+
+            modelBuilder.Entity<User>().HasData(user);
+
+            var teamsNames = new List<string>
+            {
+                    "KTS Smolany", "YoungBoys", "RenegaciFC", "Apotex", "Źródlani Łyna", "Młode Orły", "Żelazno", "Kram Nidzica", "Polonia Muszaki", "Skorpion Napiwoda", "Zatorze"
+            };
+
+            int id = 1;
+            modelBuilder.Entity<Team>().HasData(
+                new
+                {
+                    Id = id++,
+                    Name = teamsNames[id-2],
+                    LeagueId=1
+                },
+                new
+                {
+                    Id = id++,
+                    Name = teamsNames[id - 2],
+                    LeagueId = 1
+                },
+                new
+                {
+                    Id = id++,
+                    Name = teamsNames[id - 2],
+                    LeagueId = 1
+                },
+                new
+                {
+                    Id = id++,
+                    Name = teamsNames[id - 2],
+                    LeagueId = 1
+                },
+                new
+                {
+                    Id = id++,
+                    Name = teamsNames[id - 2],
+                    LeagueId = 1
+                },
+                new
+                {
+                    Id = id++,
+                    Name = teamsNames[id - 2],
+                    LeagueId = 1
+                },
+                new
+                {
+                    Id = id++,
+                    Name = teamsNames[id - 2],
+                    LeagueId = 1
+                },
+                new
+                {
+                    Id = id++,
+                    Name = teamsNames[id - 2],
+                    LeagueId = 1
+                },
+                new
+                {
+                    Id = id++,
+                    Name = teamsNames[id - 2],
+                    LeagueId = 1
+                },
+                new
+                {
+                    Id = id++,
+                    Name = teamsNames[id - 2],
+                    LeagueId = 1
+                },
+                new
+                {
+                    Id = id,
+                    Name = teamsNames[id - 1],
+                    LeagueId = 1
+                }
+            );
+
+            modelBuilder.Entity<League>().HasData(
+                new
+                {
+                    Id = 1,
+                    Name = "II NHLPN",
+                    Quantity = 11,
+                    UserId = user.Id
+            
+                }
+            );
+
+            id = 1;
+
+            modelBuilder.Entity<Match>().HasData(
+                new 
+                {
+                    Id = id++,
+                    HostScore = 7,
+                    AwayScore = 1,
+                    LeagueId = 1,
+                    HostId = 11,
+                    AwayId = 2,
+                    Date = DateTime.Now,
+                    Round = 1,
+                },
+                new
+                {
+                    Id = id++,
+                    HostScore = 1,
+                    AwayScore = 4,
+                    LeagueId = 1,
+                    HostId = 3,
+                    AwayId = 10,
+                    Date = DateTime.Now,
+                    Round = 1,
+                },
+                new
+                {
+                    Id = id++,
+                    HostScore = 2,
+                    AwayScore = 3,
+                    LeagueId = 1,
+                    HostId = 4,
+                    AwayId = 9,
+                    Date = DateTime.Now,
+                    Round = 1,
+                },
+                new
+                {
+                    Id = id++,
+                    HostScore = 3,
+                    AwayScore = 3,
+                    LeagueId = 1,
+                    HostId = 5,
+                    AwayId = 8,
+                    Date = DateTime.Now,
+                    Round = 1,
+                },
+                new
+                {
+                    Id = id++,
+                    HostScore = 1,
+                    AwayScore = 8,
+                    LeagueId = 1,
+                    HostId = 6,
+                    AwayId = 7,
+                    Date = DateTime.Now,
+                    Round = 1,
+                }
+            );
+
             base.OnModelCreating(modelBuilder);
         }
     }

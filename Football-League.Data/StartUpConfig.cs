@@ -28,8 +28,10 @@ namespace Football_League.Data
 
             var migrationAssembly = typeof(StartUpConfig).GetTypeInfo().Assembly.GetName().Name;
 
-            services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), opt => opt.MigrationsAssembly(migrationAssembly)));
+            services.AddDbContext<AppDbContext>(options => {
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), opt => opt.MigrationsAssembly(migrationAssembly));
+                options.EnableSensitiveDataLogging();
+            });
 
             services.AddIdentityCore<User>(options => { });
             services.AddScoped<IUserStore<User>, UserOnlyStore<User, AppDbContext>>();
