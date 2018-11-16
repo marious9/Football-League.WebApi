@@ -35,7 +35,13 @@ namespace Football_League.Data.Repositories
             => _appDbContext.Teams.Include(t => t.AwayMatches).Include(t => t.HostMatches).Include(t => t.League);
 
         public Team GetById(int id)
-            => _appDbContext.Teams.Include(t => t.AwayMatches).Include(t => t.HostMatches).Include(t => t.League).SingleOrDefault(m => m.Id == id);
+            => _appDbContext.Teams.Include(t => t.AwayMatches).ThenInclude(m => m.Away)
+                                  .Include(t => t.AwayMatches).ThenInclude(m => m.Host)
+                                  .Include(t => t.HostMatches).ThenInclude(m => m.Host)
+                                  .Include(t => t.HostMatches).ThenInclude(m => m.Away)
+                                  .Include(t => t.League)
+                                  .Include(t => t.Players)
+                                  .SingleOrDefault(m => m.Id == id);
 
         public IEnumerable<Team> GetTeamsFromLeague(int leagueId)
             => GetAll().Where(t => t.League.Id == leagueId);

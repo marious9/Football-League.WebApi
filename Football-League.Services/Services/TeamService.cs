@@ -72,7 +72,10 @@ namespace Football_League.Services.Services
 
         public ResponseDto<TeamDto> GetTeam(int teamId)
         {
-            var response = new ResponseDto<TeamDto>();
+            var response = new ResponseDto<TeamDto>
+            {
+                Object = new TeamDto()
+            };
 
             var team = _teamRepository.GetById(teamId);
             if(team == null)
@@ -81,7 +84,12 @@ namespace Football_League.Services.Services
                 return response;
             }
 
+            var hostMatches = team.HostMatches;
+            var awayMatches = team.AwayMatches;
+            var matches = hostMatches.Concat(awayMatches);
+
             response.Object = _mapper.Map<TeamDto>(team);
+            response.Object.Matches = _mapper.Map<List<MatchDto>>(matches);
 
             return response;
 

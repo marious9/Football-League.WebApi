@@ -1,5 +1,6 @@
 ﻿using Football_League.Models.BindingModels;
 using Football_League.Services.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ namespace Football_League.Api.Controllers
             _teamService = teamService;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult GetAllTeams()
         {
@@ -25,6 +27,7 @@ namespace Football_League.Api.Controllers
             return Ok(result);
         }
 
+        [AllowAnonymous]
         [HttpGet("{teamId}")]
         public IActionResult GetTeam(int teamId)
         {

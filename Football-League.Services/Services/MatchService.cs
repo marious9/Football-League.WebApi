@@ -104,8 +104,8 @@ namespace Football_League.Services.Services
                 Object = new MatchesDto()
             };
 
-            var matches = _matchRepository.GetAll().Where(m => m.League.Id == leagueId);
-            if(matches == null)
+            var matches = _matchRepository.GetAll().Where(m => m.League.Id == leagueId).ToList();
+            if(matches == null || matches.Count == 0)
             {
                 response.Errors.Add(ServiceErrors.MATCH_THERE_IS_NO_MATCHES_FROM_THAT_LEAGUE);
                 return response;

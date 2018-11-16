@@ -9,15 +9,15 @@ namespace Football_League.Models.Dto
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public ICollection<Player> Players { get; set; }
-        public ICollection<Match> Matches { get; set; }
-        public LeagueDto League { get; set; }
+        public List<PlayerDto> Players { get; set; }
+        public List<MatchDto> Matches { get; set; }
+        public LeagueLessDetailsDto League { get; set; }
 
         public TeamDto()
         {
-            Players = new List<Player>();
-            Matches = new List<Match>();
-            League = new LeagueDto();
+            Players = new List<PlayerDto>();
+            Matches = new List<MatchDto>();
+            League = new LeagueLessDetailsDto();
         }
     }
 }

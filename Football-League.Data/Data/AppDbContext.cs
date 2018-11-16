@@ -236,6 +236,99 @@ namespace Football_League.Repositories.Data
                 }
             );
 
+            var playersName = new List<string>
+            {
+                    "Mariusz", "Damian", "Maciej", "Dawid", "Szymon", "Batman", "Maciej", "Krystian", "Patryk", "Piotr"
+            };
+            var playerLastname = new List<string>
+            {
+                    "Kaniecki", "Kwiecień", "Wasiłowski", "Duchna", "Jabłonowski", "Kurkiewicz", "Golubiński", "Czechowski", "Rutkowski", "Czaplicki"
+            };
+            id = 1;
+            modelBuilder.Entity<Player>().HasData(
+                new 
+                {
+                    Id = id++,
+                    Firstname = playersName[id-2],
+                    Lastname = playerLastname[id-2],
+                    TeamId = 11,
+                    BirthDate = DateTime.Parse("1996-12-11")
+                },
+                new
+                {
+                    Id = id++,
+                    Firstname = playersName[id - 2],
+                    Lastname = playerLastname[id - 2],
+                    TeamId = 11,
+                    BirthDate = DateTime.Parse("1996-12-11")
+                },
+                new
+                {
+                    Id = id++,
+                    Firstname = playersName[id - 2],
+                    Lastname = playerLastname[id - 2],
+                    TeamId = 11,
+                    BirthDate = DateTime.Parse("1996-12-11")
+                },
+                new
+                {
+                    Id = id++,
+                    Firstname = playersName[id - 2],
+                    Lastname = playerLastname[id - 2],
+                    TeamId = 11,
+                    BirthDate = DateTime.Parse("1996-12-11")
+                },
+                new
+                {
+                    Id = id++,
+                    Firstname = playersName[id - 2],
+                    Lastname = playerLastname[id - 2],
+                    TeamId = 11,
+                    BirthDate = DateTime.Parse("1996-12-11")
+                },
+                new
+                {
+                    Id = id++,
+                    Firstname = playersName[id - 2],
+                    Lastname = playerLastname[id - 2],
+                    TeamId = 11,
+                    BirthDate = DateTime.Parse("1996-12-11")
+                },
+                new
+                {
+                    Id = id++,
+                    Firstname = playersName[id - 2],
+                    Lastname = playerLastname[id - 2],
+                    TeamId = 11,
+                    BirthDate = DateTime.Parse("1996-12-11")
+                },
+                new
+                {
+                    Id = id++,
+                    Firstname = playersName[id - 2],
+                    Lastname = playerLastname[id - 2],
+                    TeamId = 11,
+                    BirthDate = DateTime.Parse("1996-12-11")
+                },
+                new
+                {
+                    Id = id++,
+                    Firstname = playersName[id - 2],
+                    Lastname = playerLastname[id - 2],
+                    TeamId = 11,
+                    BirthDate = DateTime.Parse("1996-12-11")
+                },
+                new
+                {
+                    Id = id++,
+                    Firstname = playersName[id - 2],
+                    Lastname = playerLastname[id - 2],
+                    TeamId = 11,
+                    BirthDate = DateTime.Parse("1996-12-11")
+                }
+
+            );
+
             base.OnModelCreating(modelBuilder);
         }
     }
