@@ -8,7 +8,7 @@ namespace Football_League.Models.Domain
     {
         public int Id { get; set; }
         public int Minute { get; set; }
-        public Action Action { get; set; }
+        public Enums.Action Action { get; set; }
         public MatchPlayer MatchPlayer { get; set; }
     }
 }

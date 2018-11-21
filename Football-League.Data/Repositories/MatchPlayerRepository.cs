@@ -1,6 +1,7 @@
 ﻿using Football_League.Data.Interfaces;
 using Football_League.Models.Domain;
 using Football_League.Repositories.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +35,7 @@ namespace Football_League.Data.Repositories
             => _appDbContext.MatchPlayers;
 
         public MatchPlayer GetById(int matchId, int playerId)
-            => _appDbContext.MatchPlayers.SingleOrDefault(l => l.MatchId == matchId && l.PlayerId == playerId);
+            => _appDbContext.MatchPlayers.Include(m => m.Match).Include(m => m.Player).SingleOrDefault(l => l.MatchId == matchId && l.PlayerId == playerId);
 
         public async Task InsertAsync(MatchPlayer MatchPlayer)
         {
