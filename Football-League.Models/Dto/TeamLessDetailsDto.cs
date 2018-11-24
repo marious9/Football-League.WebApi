@@ -8,5 +8,6 @@ namespace Football_League.Models.Dto
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public List<MatchPlayerDto> Players { get; set; }
     }
 }

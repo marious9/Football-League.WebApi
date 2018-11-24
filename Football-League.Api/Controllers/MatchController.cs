@@ -19,7 +19,7 @@ namespace Football_League.Api.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("{leagueId}")]
+        [HttpGet("League/{leagueId}")]
         public IActionResult GetMatchesFromLeague(int leagueId)
         {
             var result = _matchService.GetMatchesFromLeague(leagueId);
