@@ -6,6 +6,11 @@ namespace Football_League.Services.Services
 {
     public static class ServiceErrors
     {
+        public const string STATISTIC_INVALID_ACTION = "Podana akcja nie istnieje.";
+        public const string STATISTIC_DOES_NOT_EXIST = "Nie znaleziono statystyki.";
+
+        public const string MATCH_PLAYER_DOES_NOT_EXIST = "Zawodnik nie jest przypisany do tego meczu.";
+
         public const string MATCH_ONE_OF_TEAMS_ALREADY_PLAYS_MATCH_IN_GIVEN_ROUND = "Co najmniej jedna z drużyn gra już mecz w tej kolejce.";
         public const string MATCH_TEAMS_IDS_CANT_BE_EQUAL = "Id drużyn muszą być różne.";
         public const string MATCH_TEAMS_ARENT_IN_THE_SAME_LEAGUE = "Drużyny nie grają w tej samej lidze.";

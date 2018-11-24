@@ -14,13 +14,15 @@ namespace Football_League.Services.Services
 {
     public class MatchService : IMatchService
     {
+        private readonly IMatchPlayerRepository _matchPlayerRepository;
         private readonly ITeamRepository _teamRepository;
         private readonly IMatchRepository _matchRepository;
         private readonly ILeagueRepository _leagueRepository;
         private readonly IMapper _mapper;
 
-        public MatchService(IMatchRepository matchRepository, ILeagueRepository leagueRepository, ITeamRepository teamRepository, IMapper mapper)
+        public MatchService(IMatchPlayerRepository matchPlayerRepository,IMatchRepository matchRepository, ILeagueRepository leagueRepository, ITeamRepository teamRepository, IMapper mapper)
         {
+            _matchPlayerRepository = matchPlayerRepository;
             _teamRepository = teamRepository;
             _matchRepository = matchRepository;
             _leagueRepository = leagueRepository;
@@ -179,6 +181,23 @@ namespace Football_League.Services.Services
                 }
             }
 
+            var matchPlayers = new List<MatchPlayer>();
+
+            var players = host.Players.Concat(away.Players).ToList();
+
+            players.ForEach(player =>
+            {
+                var matchPlayer = new MatchPlayer
+                {
+                    PlayerId = player.Id,
+                    Player = player,
+                    EntryMinute=0,
+                    DescentMinute=90
+                };
+                matchPlayers.Add(matchPlayer);
+            }
+            );
+
             var match = new Match
             {
                 Away = away,
@@ -187,10 +206,13 @@ namespace Football_League.Services.Services
                 HostScore = model.HostScore,
                 Date = model.Date,
                 League = league,
-                Round = model.Round
-            };
+                Round = model.Round,
+                MatchPlayers=matchPlayers
+            };          
 
             await _matchRepository.InsertAsync(match);
+
+            //await _matchPlayerRepository.InsertAsync(matchplayer);
 
             return response;
         }

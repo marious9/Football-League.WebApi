@@ -31,7 +31,7 @@ namespace Football_League.Repositories.Data
                .Property(s => s.Action)
                .HasConversion(
                 a => a.ToString(),
-                a => (Action)Enum.Parse(typeof(Action), a));
+                a => (Models.Enums.Action)Enum.Parse(typeof(Models.Enums.Action), a));
 
             modelBuilder.Entity<Player>()
                 .HasKey(p => p.Id);

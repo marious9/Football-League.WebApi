@@ -1,12 +1,17 @@
-﻿using Football_League.Models.Domain;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Football_League.Models.Dto
 {
-    public class MatchPlayerDto
+    public class MatchPlayerDto : BaseModelDto
     {
-        public Player Player { get; set; }
+        public int MatchId { get; set; }
+        public MatchDto Match { get; set; }
+        public int PlayerId { get; set; }
+        public PlayerDto Player { get; set; }
+        public int EntryMinute { get; set; }
+        public int DescentMinute { get; set; }
+        //public virtual ICollection<StatisticDto> Statistics { get; set; }
     }
 }
