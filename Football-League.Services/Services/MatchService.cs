@@ -92,7 +92,6 @@ namespace Football_League.Services.Services
                 response.Errors.Add(ServiceErrors.MATCH_DOES_NOT_EXIST);
                 return response;
             }
-
             response.Object = _mapper.Map<MatchDto>(match);
 
             return response;
@@ -212,7 +211,8 @@ namespace Football_League.Services.Services
 
             await _matchRepository.InsertAsync(match);
 
-            //await _matchPlayerRepository.InsertAsync(matchplayer);
+            var tasks = matchPlayers.ToList().Select(player => _matchPlayerRepository.InsertAsync(player));
+            //matchPlayers.ForEach(async player => await _matchPlayerRepository.InsertAsync(player));            
 
             return response;
         }

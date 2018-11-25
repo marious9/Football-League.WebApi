@@ -1,14 +1,15 @@
-﻿using System;
+﻿using Football_League.Models.Domain;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Football_League.Models.Dto
 {
-    public class StatisticDto : BaseModelDto
+    public class MatchStatisticDto
     {
         public int Id { get; set; }
         public int Minute { get; set; }
         public Enums.Action Action { get; set; }
-        public MatchPlayerDto MatchPlayer { get; set; }
+        public MatchPlayerDtoLessDetails MatchPlayer { get; set; }
     }
 }

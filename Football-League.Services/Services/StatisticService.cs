@@ -6,6 +6,7 @@ using Football_League.Models.Dto;
 using Football_League.Services.Services.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -29,6 +30,106 @@ namespace Football_League.Services.Services
             _leagueRepository = leagueRepository;
             _mapper = mapper;
             _statisticRepository = statisticRepository;
+        }
+
+        public ResponseDto<LeagueRankingDto> GetLeagueStatistics(int leagueId)
+        {
+            var response = new ResponseDto<LeagueRankingDto>
+            {
+                Object = new LeagueRankingDto()
+            };
+
+            var league = _leagueRepository.GetById(leagueId);
+            if(league == null)
+            {
+                response.Errors.Add(ServiceErrors.LEAGUE_DOESNT_EXIST);
+                return response;
+            }
+
+            var players = new List<PlayerDtoLessDetails>();
+
+            league.Teams.ToList().ForEach(team =>
+                team.Players.ToList().ForEach(player =>
+                    players.Add(new PlayerDtoLessDetails
+                        {
+                            BirthDate = player.BirthDate,
+                            Firstname = player.Firstname,
+                            Id = player.Id,
+                            Lastname = player.Lastname
+                        }
+                    )
+                )
+            );            
+
+            players.ForEach(player =>
+            {
+                response.Object.Players.Add(
+                    new PlayerStatisticsDto
+                    {
+                        Player = player,
+                        Goals = CountStatistics(player.Id)[Models.Enums.Action.Goal],
+                        Assists = CountStatistics(player.Id)[Models.Enums.Action.Assist],
+                        YellowCards = CountStatistics(player.Id)[Models.Enums.Action.YellowCard],
+                        RedCards = CountStatistics(player.Id)[Models.Enums.Action.RedCard],
+                        MissedPenalties = CountStatistics(player.Id)[Models.Enums.Action.MissedPenalty]                        
+                    }
+                );
+            });
+
+            return response;
+        }
+
+        private Dictionary<Models.Enums.Action,int> CountStatistics(int playerId)
+        {
+            var statistics = _statisticRepository.GetAll().Where(s => s.MatchPlayer.PlayerId == playerId).ToList();
+
+            var playerStatistics = new Dictionary<Models.Enums.Action, int> {
+                {Models.Enums.Action.Goal, statistics.Where(s => s.Action == Models.Enums.Action.Goal).Count() },
+                {Models.Enums.Action.Assist, statistics.Where(s => s.Action == Models.Enums.Action.Assist).Count() },
+                {Models.Enums.Action.YellowCard, statistics.Where(s => s.Action == Models.Enums.Action.YellowCard).Count() },
+                {Models.Enums.Action.RedCard, statistics.Where(s => s.Action == Models.Enums.Action.RedCard).Count() },
+                {Models.Enums.Action.MissedPenalty, statistics.Where(s => s.Action == Models.Enums.Action.MissedPenalty).Count() }
+            };
+
+            return playerStatistics;
+        }
+
+        public ResponseDto<MatchStatisticsDto> GetMatchStatistics(int matchId)
+        {
+            var response = new ResponseDto<MatchStatisticsDto>
+            {
+                Object = new MatchStatisticsDto()
+            };
+
+            var match = _matchRepository.GetById(matchId);
+            if(match == null)
+            {
+                response.Errors.Add(ServiceErrors.MATCH_DOES_NOT_EXIST);
+                return response;
+            }
+
+            var matchPlayers = match.MatchPlayers.ToList();
+            var statistics = new List<MatchStatisticDto>();
+
+            matchPlayers.ForEach(matchplayer =>
+            {
+                matchplayer.Statistics.ToList().ForEach(statistic =>
+                {
+                    statistics.Add(new MatchStatisticDto
+                    {
+                        Action = statistic.Action,
+                        MatchPlayer = _mapper.Map<MatchPlayerDtoLessDetails>(matchplayer),
+                        Id = statistic.Id,
+                        Minute = statistic.Minute
+                    });
+                });
+            });
+
+            statistics = statistics.OrderBy(s => s.Minute).ToList();
+
+            response.Object.Statistics = statistics;
+
+            return response;
         }
 
         public ResponseDto<StatisticDto> GetStatistic(int statisticId)

@@ -19,8 +19,36 @@ namespace Football_League.Api.Controllers
         }
 
         [AllowAnonymous]
+        [HttpGet("League/{leagueId}")]
+        public IActionResult GetLeagueRanking(int leagueId)
+        {
+            var result = _statisticService.GetLeagueStatistics(leagueId);
+
+            if (result.ErrorOccurred)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("Match/{matchId}")]
+        public IActionResult GetMatchStatistics(int matchId)
+        {
+            var result = _statisticService.GetMatchStatistics(matchId);
+
+            if (result.ErrorOccurred)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+
+        [AllowAnonymous]
         [HttpGet("{statisticId}")]
-        public IActionResult GetPlayer(int statisticId)
+        public IActionResult GetStatistic(int statisticId)
         {
             var result = _statisticService.GetStatistic(statisticId);
 
@@ -33,7 +61,7 @@ namespace Football_League.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> InsertPlayer([FromBody]AddStatisticBindingModel model)
+        public async Task<IActionResult> InsertStatistic([FromBody]AddStatisticBindingModel model)
         {
             var result = await _statisticService.InsertAsync(model);
 

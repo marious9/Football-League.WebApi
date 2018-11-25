@@ -11,5 +11,7 @@ namespace Football_League.Services.Services.Interfaces
     {
         Task<ResponseDto<BaseModelDto>> InsertAsync(AddStatisticBindingModel model);
         ResponseDto<StatisticDto> GetStatistic(int statisticId);
+        ResponseDto<MatchStatisticsDto> GetMatchStatistics(int matchId);
+        ResponseDto<LeagueRankingDto> GetLeagueStatistics(int leagueId);
     }
 }

@@ -35,10 +35,10 @@ namespace Football_League.Data.Repositories
             => _appDbContext.Leagues.Include(x => x.Teams);
 
         public League GetByName(string name)
-            => _appDbContext.Leagues.Include(x => x.Teams).SingleOrDefault(l => l.Name == name);
+            => _appDbContext.Leagues.Include(x => x.Teams).ThenInclude(t => t.Players).SingleOrDefault(l => l.Name == name);
 
         public League GetById(int id)
-            => _appDbContext.Leagues.Include(x => x.Teams).SingleOrDefault(l => l.Id == id);
+            => _appDbContext.Leagues.Include(x => x.Teams).ThenInclude(t => t.Players).SingleOrDefault(l => l.Id == id);
 
         public async Task InsertAsync(League League)
         {
