@@ -1,5 +1,6 @@
 ﻿using Football_League.Models.BindingModels;
 using Football_League.Models.Dto;
+using Football_League.Models.Dto.MatchSchedule;
 using Football_League.Models.Dto.TableDto;
 using System;
 using System.Collections.Generic;
@@ -15,5 +16,6 @@ namespace Football_League.Services.Services.Interfaces
         Task<ResponseDto<BaseModelDto>> EditLeagueAsync(int leagueId, EditLeagueBindingModel model);
         ResponseDto<LeagueDto> GetLeague(int leagueId);
         ResponseDto<LeaguesDto> GetAllLeagues();
+        ResponseDto<MatchScheduleDto> GenerateMatchSchedule(int leagueId);
     }
 }

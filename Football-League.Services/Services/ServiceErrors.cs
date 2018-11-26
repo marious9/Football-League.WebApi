@@ -19,6 +19,7 @@ namespace Football_League.Services.Services
 
         public const string STH_WENT_WRONG = "Coś poszło nie tak.";
 
+        public const string LEAGUE_NOT_AVAILABLE_NUMBER_OF_TEAMS = "Nie wystarczająca liczba drużyn w lidze.";
         public const string LEAGUE_ALREADY_EXISTS = "Liga o podanej nazwie już istnieje.";
         public const string LEAGUE_DOESNT_EXIST = "Liga nie istnieje.";
 

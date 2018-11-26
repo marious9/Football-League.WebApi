@@ -21,6 +21,19 @@ namespace Football_League.Api.Controllers
             _leagueService = leagueService;
         }
 
+        [HttpGet("GenerateSchedule/{leagueId}")]
+        public IActionResult GenerateSchedule(int leagueId)
+        {
+            var result =  _leagueService.GenerateMatchSchedule(leagueId);
+            if (result.ErrorOccurred)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+
+
         [AllowAnonymous]
         [HttpGet]
         public IActionResult GetAllLeagues()
