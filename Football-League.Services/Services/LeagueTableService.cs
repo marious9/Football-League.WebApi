@@ -56,10 +56,11 @@ namespace Football_League.Services.Services
                 {
                     TeamId = team.Id,
                     Name = team.Name,
-                    MatchesPlayed = teamMatchesHost.Count() + teamMatchesAway.Count(),
                     MatchesWon = CountWins(teamMatchesHost, teamMatchesAway),
                     MatchesDrawn = CountDraws(teamMatchesHost, teamMatchesAway),
                     MatchesLost = CountDefeats(teamMatchesHost, teamMatchesAway),
+                    MatchesPlayed = CountWins(teamMatchesHost, teamMatchesAway) + CountDraws(teamMatchesHost, teamMatchesAway) 
+                        + CountDefeats(teamMatchesHost, teamMatchesAway),
                     Points = CountPoints(teamMatchesHost, teamMatchesAway),
                     GoalsScored = scoredGoals,
                     GoalsLost = lostGoals,
@@ -83,6 +84,10 @@ namespace Football_League.Services.Services
 
         private int CountWins(IEnumerable<MatchDto> teamMatchesHost, IEnumerable<MatchDto> teamMatchesAway)
         {
+            if (teamMatchesHost.FirstOrDefault(m => m.HostScore == -1) != null || teamMatchesHost.FirstOrDefault(m => m.AwayScore == -1) != null)
+            {
+                return 0;
+            }
             var hostWins = teamMatchesHost.Where(m => m.HostScore > m.AwayScore).Count();
             var awayWins = teamMatchesAway.Where(m => m.HostScore < m.AwayScore).Count();
 
@@ -91,6 +96,11 @@ namespace Football_League.Services.Services
 
         private int CountDraws(IEnumerable<MatchDto> teamMatchesHost, IEnumerable<MatchDto> teamMatchesAway)
         {
+            if (teamMatchesHost.FirstOrDefault(m => m.HostScore == -1) != null || teamMatchesHost.FirstOrDefault(m => m.AwayScore == -1) != null)
+            {
+                return 0;
+            }
+
             var hostDraws = teamMatchesHost.Where(m => m.HostScore == m.AwayScore).Count();
             var awayDraws = teamMatchesAway.Where(m => m.HostScore == m.AwayScore).Count();
 
@@ -100,6 +110,11 @@ namespace Football_League.Services.Services
 
         private int CountDefeats(IEnumerable<MatchDto> teamMatchesHost, IEnumerable<MatchDto> teamMatchesAway)
         {
+            if (teamMatchesHost.FirstOrDefault(m => m.HostScore == -1) != null || teamMatchesHost.FirstOrDefault(m => m.AwayScore == -1) != null)
+            {
+                return 0;
+            }
+
             var hostLooses = teamMatchesHost.Where(m => m.HostScore < m.AwayScore).Count();
             var awayLooses = teamMatchesAway.Where(m => m.HostScore > m.AwayScore).Count();
 
@@ -108,6 +123,11 @@ namespace Football_League.Services.Services
 
         private int CountScoredGoals(IEnumerable<MatchDto> teamMatchesHost, IEnumerable<MatchDto> teamMatchesAway)
         {
+            if (teamMatchesHost.FirstOrDefault(m => m.HostScore == -1) != null || teamMatchesHost.FirstOrDefault(m => m.AwayScore == -1) != null)
+            {
+                return 0;
+            }
+
             var scoredAsHost = teamMatchesHost.Sum(m => m.HostScore);
             var scoredAsAway = teamMatchesAway.Sum(m => m.AwayScore);
 
@@ -116,6 +136,11 @@ namespace Football_League.Services.Services
 
         private int CountLostGoals(IEnumerable<MatchDto> teamMatchesHost, IEnumerable<MatchDto> teamMatchesAway)
         {
+            if (teamMatchesHost.FirstOrDefault(m => m.HostScore == -1) != null || teamMatchesHost.FirstOrDefault(m => m.AwayScore == -1) != null)
+            {
+                return 0;
+            }
+
             var lostAsHost = teamMatchesHost.Sum(m => m.AwayScore);
             var lostAsAway = teamMatchesAway.Sum(m => m.HostScore);
 

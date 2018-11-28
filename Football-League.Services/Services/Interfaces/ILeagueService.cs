@@ -16,6 +16,6 @@ namespace Football_League.Services.Services.Interfaces
         Task<ResponseDto<BaseModelDto>> EditLeagueAsync(int leagueId, EditLeagueBindingModel model);
         ResponseDto<LeagueDto> GetLeague(int leagueId);
         ResponseDto<LeaguesDto> GetAllLeagues();
-        ResponseDto<MatchScheduleDto> GenerateMatchSchedule(int leagueId);
+        Task<ResponseDto<MatchScheduleDto>> GenerateMatchSchedule(int leagueId);
     }
 }

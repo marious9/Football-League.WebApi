@@ -16,12 +16,14 @@ namespace Football_League.Services.Services
 {
     public class LeagueService : ILeagueService
     {
+        private readonly IMatchRepository _matchRepository;
         private readonly IMatchService _matchService;
         private readonly ILeagueRepository _leagueRepository;
         private readonly IMapper _mapper;
 
-        public LeagueService(ILeagueRepository leagueRepository, IMapper mapper, IMatchService matchService)
+        public LeagueService(ILeagueRepository leagueRepository, IMapper mapper, IMatchService matchService, IMatchRepository matchRepository)
         {
+            _matchRepository = matchRepository;
             _matchService = matchService;
             _leagueRepository = leagueRepository;
             _mapper = mapper;
@@ -112,7 +114,7 @@ namespace Football_League.Services.Services
             return response;
         }
 
-        public ResponseDto<MatchScheduleDto> GenerateMatchSchedule(int leagueId)
+        public async Task<ResponseDto<MatchScheduleDto>> GenerateMatchSchedule(int leagueId)
         {
             var response = new ResponseDto<MatchScheduleDto>
             {
@@ -144,13 +146,12 @@ namespace Football_League.Services.Services
                     {
                         popped = teams[teams.Count - 1];
                         
-                    }                    
-                    for(int j =0; j < league.Quantity-1; j++)
+                    }
+                    var j = 0;
+                    while (j < (league.Quantity-1)/2)
                     {
-                        if (j < (league.Quantity-1)/2)
-                        {
-                            queue.Add(teams[j].Id, teams[teams.Count - j-2].Id);
-                        }
+                        queue.Add(teams[j].Id, teams[teams.Count - j-2].Id);
+                        j++;
                     }
                     if(i == 0)
                     {
@@ -162,6 +163,23 @@ namespace Football_League.Services.Services
                     teams.Add(popped);
                     schedule.Add(queue);
                 }                
+            } else
+            {
+                for(int i = 0; i < league.Quantity - 1; i++)
+                {
+                    var queue = new Dictionary<int, int>();
+                    var popped = teams[0];
+                    var j = 0;
+                    while (j < (league.Quantity / 2))
+                    {
+                        queue.Add(teams[j].Id, teams[teams.Count - j + i - 2].Id);
+
+                        j++;
+                    }
+                    teams.RemoveAt(0);
+                    teams.Add(popped);
+                    schedule.Add(queue);
+                }
             }
 
             var rematches = new List<Dictionary<int, int>>();
@@ -181,26 +199,56 @@ namespace Football_League.Services.Services
 
             foreach (var queue in schedule)
             {
-                var matches = new List<MatchDto>();
+                var matchesDto = new List<MatchDto>();
                 foreach(var match in queue)
                 {
                     var hostTeam = teams.FirstOrDefault(t => t.Id == match.Key);
                     var awayTeam = teams.FirstOrDefault(t => t.Id == match.Value);
 
-                    matches.Add(new MatchDto
+                    var matchPlayers = new List<MatchPlayer>();
+                    var players = hostTeam.Players.Concat(awayTeam.Players).ToList();
+
+                    players.ForEach(player =>
+                    {
+                        var matchPlayer = new MatchPlayer
+                        {
+                            PlayerId = player.Id,
+                            Player = player,
+                            EntryMinute = 0,
+                            DescentMinute = 90
+                        };
+                        matchPlayers.Add(matchPlayer);
+                    }
+                    );
+
+                    matchesDto.Add(new MatchDto
                     {
                         Away = _mapper.Map<TeamLessDetailsDto>(awayTeam),
                         Host = _mapper.Map<TeamLessDetailsDto>(hostTeam),
                         Date = DateTime.Now.AddDays(1 * schedule.IndexOf(queue)),
                         Round = schedule.IndexOf(queue),
-                        League = _mapper.Map<LeagueLessDetailsDto>(league)
+                        League = _mapper.Map<LeagueLessDetailsDto>(league),
+                        AwayScore = -1,
+                        HostScore = -1
+                    });
+
+                    await _matchRepository.InsertAsync(new Match
+                    {
+                        Away = awayTeam,
+                        AwayScore = -1,
+                        Date = DateTime.Now.AddDays(1 * schedule.IndexOf(queue)),
+                        Round = schedule.IndexOf(queue),
+                        Host = hostTeam,
+                        HostScore = -1,
+                        League = league,
+                        MatchPlayers = matchPlayers
                     });
                 }
 
                 response.Object.Queue.Add(new MatchQueueDto
                 {
                     Round = schedule.IndexOf(queue),
-                    Matches = matches
+                    Matches = matchesDto
                 });
             }
 

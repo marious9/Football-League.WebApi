@@ -22,9 +22,9 @@ namespace Football_League.Api.Controllers
         }
 
         [HttpGet("GenerateSchedule/{leagueId}")]
-        public IActionResult GenerateSchedule(int leagueId)
+        public async Task<IActionResult> GenerateSchedule(int leagueId)
         {
-            var result =  _leagueService.GenerateMatchSchedule(leagueId);
+            var result = await  _leagueService.GenerateMatchSchedule(leagueId);
             if (result.ErrorOccurred)
             {
                 return BadRequest(result);
