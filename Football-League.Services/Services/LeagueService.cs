@@ -136,6 +136,40 @@ namespace Football_League.Services.Services
 
             var schedule = new List<Dictionary<int, int>>();
             var teams = league.Teams.ToList();
+
+            var teamsIds = new List<int>();
+
+            teams.ForEach(team => teamsIds.Add(team.Id));
+
+            //var permuts = GetPermutations(teamsIds, 2);
+            //var testPermuts = new List<List<int>>();
+            //foreach(var per in permuts)
+            //{
+            //    testPermuts.Add(per.ToList());
+            //}
+
+
+            var roundRobin = GenerateRoundRobin(teamsIds.Count);
+
+            var scheduleRobin = new List<Dictionary<int, int>>();            
+
+            for(int round =0; round <= roundRobin.GetUpperBound(1); round++)
+            {
+                var queueRobin = new Dictionary<int, int>();
+                for (int team = 0; team < teamsIds.Count; team++)
+                {
+                    if (roundRobin[team, round] == BYE)
+                    {
+                        queueRobin.Add(team, BYE);
+                    }
+                    else if (team < roundRobin[team, round])
+                    {
+                        queueRobin.Add(team, roundRobin[team,round]);
+                    }
+                }
+                scheduleRobin.Add(queueRobin);
+            }
+
             if (league.Quantity % 2 != 0)
             {
                 for(int i = 0; i < league.Quantity; i++)
@@ -163,24 +197,8 @@ namespace Football_League.Services.Services
                     teams.Add(popped);
                     schedule.Add(queue);
                 }                
-            } else
-            {
-                for(int i = 0; i < league.Quantity - 1; i++)
-                {
-                    var queue = new Dictionary<int, int>();
-                    var popped = teams[0];
-                    var j = 0;
-                    while (j < (league.Quantity / 2))
-                    {
-                        queue.Add(teams[j].Id, teams[teams.Count - j + i - 2].Id);
-
-                        j++;
-                    }
-                    teams.RemoveAt(0);
-                    teams.Add(popped);
-                    schedule.Add(queue);
-                }
-            }
+            } 
+            
 
             var rematches = new List<Dictionary<int, int>>();
 
@@ -232,17 +250,17 @@ namespace Football_League.Services.Services
                         HostScore = -1
                     });
 
-                    await _matchRepository.InsertAsync(new Match
-                    {
-                        Away = awayTeam,
-                        AwayScore = -1,
-                        Date = DateTime.Now.AddDays(1 * schedule.IndexOf(queue)),
-                        Round = schedule.IndexOf(queue),
-                        Host = hostTeam,
-                        HostScore = -1,
-                        League = league,
-                        MatchPlayers = matchPlayers
-                    });
+                    //await _matchRepository.InsertAsync(new Match
+                    //{
+                    //    Away = awayTeam,
+                    //    AwayScore = -1,
+                    //    Date = DateTime.Now.AddDays(1 * schedule.IndexOf(queue)),
+                    //    Round = schedule.IndexOf(queue),
+                    //    Host = hostTeam,
+                    //    HostScore = -1,
+                    //    League = league,
+                    //    MatchPlayers = matchPlayers
+                    //});
                 }
 
                 response.Object.Queue.Add(new MatchQueueDto
@@ -253,6 +271,100 @@ namespace Football_League.Services.Services
             }
 
             return response;
+        }
+
+        private const int BYE = -1;
+
+        private int[,] GenerateRoundRobinOdd(int num_teams)
+        {
+            int n2 = (int)((num_teams - 1) / 2);
+            int[,] results = new int[num_teams, num_teams];
+
+            // Initialize the list of teams.
+            int[] teams = new int[num_teams];
+            int[] teams2 = new int[num_teams];
+            for (int i = 0; i < num_teams; i++) teams[i] = i;
+
+            // Start the rounds.
+            for (int round = 0; round < num_teams; round++)
+            {
+                for (int i = 0; i < n2; i++)
+                {
+                    int team1 = teams[n2 - i];
+                    int team2 = teams[n2 + i + 1];
+                    results[team1, round] = team2;
+                    results[team2, round] = team1;
+                }
+
+                // Set the team with the bye.
+                results[teams[0], round] = BYE;
+
+                // Rotate the array.
+                RotateArray(teams);
+            }
+
+            return results;
+        }
+
+        // Rotate the entries one position.
+        private void RotateArray(int[] teams)
+        {
+            int tmp = teams[teams.Length - 1];
+            Array.Copy(teams, 0, teams, 1, teams.Length - 1);
+            teams[0] = tmp;
+        }
+
+        private int[,] GenerateRoundRobinEven(int num_teams)
+        {
+            // Generate the result for one fewer teams.
+            int[,] results = GenerateRoundRobinOdd(num_teams - 1);
+
+            // Copy the results into a bigger array,
+            // replacing the byes with the extra team.
+            int[,] results2 = new int[num_teams, num_teams - 1];
+            for (int team = 0; team < num_teams - 1; team++)
+            {
+                for (int round = 0; round < num_teams - 1; round++)
+                {
+                    if (results[team, round] == BYE)
+                    {
+                        // Change the bye to the new team.
+                        results2[team, round] = num_teams - 1;
+                        results2[num_teams - 1, round] = team;
+                    }
+                    else
+                    {
+                        results2[team, round] = results[team, round];
+                    }
+                }
+            }
+
+            return results2;
+        }
+
+        private int[,] GenerateRoundRobin(int num_teams)
+        {
+            if (num_teams % 2 == 0)
+                return GenerateRoundRobinEven(num_teams);
+            else
+                return GenerateRoundRobinOdd(num_teams);
+        }
+
+        private IEnumerable<IEnumerable<T>> GetPermutations<T>(IEnumerable<T> items, int count)
+        {
+            int i = 0;
+            foreach (var item in items)
+            {
+                if (count == 1)
+                    yield return new T[] { item };
+                else
+                {
+                    foreach (var result in GetPermutations(items.Skip(i + 1), count - 1))
+                        yield return new T[] { item }.Concat(result);
+                }
+
+                ++i;
+            }
         }
     }
 }
