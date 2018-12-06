@@ -134,26 +134,17 @@ namespace Football_League.Services.Services
                 return response;
             }
 
-            var schedule = new List<Dictionary<int, int>>();
             var teams = league.Teams.ToList();
 
             var teamsIds = new List<int>();
 
             teams.ForEach(team => teamsIds.Add(team.Id));
 
-            //var permuts = GetPermutations(teamsIds, 2);
-            //var testPermuts = new List<List<int>>();
-            //foreach(var per in permuts)
-            //{
-            //    testPermuts.Add(per.ToList());
-            //}
-
-
             var roundRobin = GenerateRoundRobin(teamsIds.Count);
 
             var scheduleRobin = new List<Dictionary<int, int>>();            
 
-            for(int round =0; round <= roundRobin.GetUpperBound(1); round++)
+            for(int round = 0; round <= roundRobin.GetUpperBound(1); round++)
             {
                 var queueRobin = new Dictionary<int, int>();
                 for (int team = 0; team < teamsIds.Count; team++)
@@ -169,40 +160,22 @@ namespace Football_League.Services.Services
                 }
                 scheduleRobin.Add(queueRobin);
             }
-
-            if (league.Quantity % 2 != 0)
-            {
-                for(int i = 0; i < league.Quantity; i++)
-                {
-                    var queue = new Dictionary<int,int>();
-                    var popped = teams[0];
-                    if(i == 0)
-                    {
-                        popped = teams[teams.Count - 1];
-                        
-                    }
-                    var j = 0;
-                    while (j < (league.Quantity-1)/2)
-                    {
-                        queue.Add(teams[j].Id, teams[teams.Count - j-2].Id);
-                        j++;
-                    }
-                    if(i == 0)
-                    {
-                        teams.RemoveAt(teams.Count - 1);
-                        teams.Add(popped);
-                    }                       
-                    popped = teams[0];
-                    teams.RemoveAt(0);
-                    teams.Add(popped);
-                    schedule.Add(queue);
-                }                
-            } 
+            var transSchedule = new List<Dictionary<int, int>>();
             
+            foreach (var robinRound in scheduleRobin)
+            {
+                var transQueue = new Dictionary<int, int>();
+                foreach (KeyValuePair<int, int> robinMatch in robinRound)
+                {
+                    if(!(robinMatch.Key == -1 || robinMatch.Value == -1))
+                        transQueue.Add(teamsIds[robinMatch.Key], teamsIds[robinMatch.Value]);
+                }
+                transSchedule.Add(transQueue);
+            }                   
 
             var rematches = new List<Dictionary<int, int>>();
 
-            foreach(var queue in schedule)
+            foreach(var queue in transSchedule)
             {
 
                 var reverseQueue = new Dictionary<int, int>();
@@ -213,7 +186,7 @@ namespace Football_League.Services.Services
                 rematches.Add(reverseQueue);
             }
 
-            schedule = schedule.Concat(rematches).ToList();
+            var schedule = transSchedule.Concat(rematches).ToList();
 
             foreach (var queue in schedule)
             {
@@ -348,23 +321,6 @@ namespace Football_League.Services.Services
                 return GenerateRoundRobinEven(num_teams);
             else
                 return GenerateRoundRobinOdd(num_teams);
-        }
-
-        private IEnumerable<IEnumerable<T>> GetPermutations<T>(IEnumerable<T> items, int count)
-        {
-            int i = 0;
-            foreach (var item in items)
-            {
-                if (count == 1)
-                    yield return new T[] { item };
-                else
-                {
-                    foreach (var result in GetPermutations(items.Skip(i + 1), count - 1))
-                        yield return new T[] { item }.Concat(result);
-                }
-
-                ++i;
-            }
-        }
+        }        
     }
 }
