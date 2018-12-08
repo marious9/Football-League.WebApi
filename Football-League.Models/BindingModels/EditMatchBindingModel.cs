@@ -10,9 +10,6 @@ namespace Football_League.Models.BindingModels
         [Required]
         public DateTime Date { get; set; }
         [Required]
-        [Range(1, 63)]
-        public int Round { get; set; }
-        [Required]
         [Range(1, 50)]
         public int HostScore { get; set; }
         [Required]

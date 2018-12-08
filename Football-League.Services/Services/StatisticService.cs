@@ -55,7 +55,8 @@ namespace Football_League.Services.Services
                             BirthDate = player.BirthDate,
                             Firstname = player.Firstname,
                             Id = player.Id,
-                            Lastname = player.Lastname
+                            Lastname = player.Lastname,
+                            TeamName = team.Name
                         }
                     )
                 )

@@ -142,12 +142,12 @@ namespace Football_League.Services.Services
 
             var roundRobin = GenerateRoundRobin(teamsIds.Count);
 
-            var scheduleRobin = new List<Dictionary<int, int>>();            
+            var robinSchedule = new List<Dictionary<int, int>>();            
 
-            for(int round = 0; round <= roundRobin.GetUpperBound(1); round++)
+            for(var round = 0; round <= roundRobin.GetUpperBound(1); round++)
             {
                 var queueRobin = new Dictionary<int, int>();
-                for (int team = 0; team < teamsIds.Count; team++)
+                for (var team = 0; team < teamsIds.Count; team++)
                 {
                     if (roundRobin[team, round] == BYE)
                     {
@@ -158,14 +158,14 @@ namespace Football_League.Services.Services
                         queueRobin.Add(team, roundRobin[team,round]);
                     }
                 }
-                scheduleRobin.Add(queueRobin);
+                robinSchedule.Add(queueRobin);
             }
             var transSchedule = new List<Dictionary<int, int>>();
             
-            foreach (var robinRound in scheduleRobin)
+            foreach (var robinRound in robinSchedule)
             {
                 var transQueue = new Dictionary<int, int>();
-                foreach (KeyValuePair<int, int> robinMatch in robinRound)
+                foreach (var robinMatch in robinRound)
                 {
                     if(!(robinMatch.Key == -1 || robinMatch.Value == -1))
                         transQueue.Add(teamsIds[robinMatch.Key], teamsIds[robinMatch.Value]);
@@ -173,7 +173,7 @@ namespace Football_League.Services.Services
                 transSchedule.Add(transQueue);
             }                   
 
-            var rematches = new List<Dictionary<int, int>>();
+            var rematchesSchedule = new List<Dictionary<int, int>>();
 
             foreach(var queue in transSchedule)
             {
@@ -183,10 +183,10 @@ namespace Football_League.Services.Services
                 {
                     reverseQueue.Add(match.Value, match.Key);
                 }
-                rematches.Add(reverseQueue);
+                rematchesSchedule.Add(reverseQueue);
             }
 
-            var schedule = transSchedule.Concat(rematches).ToList();
+            var schedule = transSchedule.Concat(rematchesSchedule).ToList();
 
             foreach (var queue in schedule)
             {
@@ -216,7 +216,7 @@ namespace Football_League.Services.Services
                     {
                         Away = _mapper.Map<TeamLessDetailsDto>(awayTeam),
                         Host = _mapper.Map<TeamLessDetailsDto>(hostTeam),
-                        Date = DateTime.Now.AddDays(1 * schedule.IndexOf(queue)),
+                        Date = DateTime.Now.AddDays((schedule.IndexOf(queue) + 1) * 7),
                         Round = schedule.IndexOf(queue),
                         League = _mapper.Map<LeagueLessDetailsDto>(league),
                         AwayScore = -1,
@@ -227,7 +227,7 @@ namespace Football_League.Services.Services
                     //{
                     //    Away = awayTeam,
                     //    AwayScore = -1,
-                    //    Date = DateTime.Now.AddDays(1 * schedule.IndexOf(queue)),
+                    //    Date = DateTime.Now.AddDays((schedule.IndexOf(queue)+1)*7),
                     //    Round = schedule.IndexOf(queue),
                     //    Host = hostTeam,
                     //    HostScore = -1,

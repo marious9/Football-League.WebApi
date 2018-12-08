@@ -55,8 +55,11 @@ namespace Football_League.Services.Services
                 response.Errors.Add(ServiceErrors.MATCH_DOES_NOT_EXIST);
                 return response;
             }
+
+            var league = _leagueRepository.GetById(match.League.Id);
+
+
             match.Date = model.Date;
-            match.Round = model.Round;
             match.HostScore = model.HostScore;
             match.AwayScore = model.AwayScore;
 
@@ -131,6 +134,18 @@ namespace Football_League.Services.Services
             if (league == null)
             {
                 response.Errors.Add(ServiceErrors.LEAGUE_DOESNT_EXIST);
+                return response;
+            }
+
+            var maxRound = int.MaxValue;
+            if (league.Quantity % 2 == 0)
+                maxRound = (league.Quantity - 1) * 2;
+            else
+                maxRound = league.Quantity * 2;
+
+            if (model.Round > maxRound)
+            {
+                response.Errors.Add(ServiceErrors.MATCH_GIVEN_ROUND_IS_GREATER_THAN_MAX_ROUND);
                 return response;
             }
 
