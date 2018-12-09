@@ -236,11 +236,11 @@ namespace Football_League.Repositories.Data
                 }
             );
 
-            var playersName = new List<string>
+            var firstTeamPlayersFirstNames = new List<string>
             {
                     "Mariusz", "Damian", "Maciej", "Dawid", "Szymon", "Batman", "Maciej", "Krystian", "Patryk", "Piotr"
             };
-            var playerLastname = new List<string>
+            var firstTeamPlayersLastNames = new List<string>
             {
                     "Kaniecki", "Kwiecień", "Wasiłowski", "Duchna", "Jabłonowski", "Kurkiewicz", "Golubiński", "Czechowski", "Rutkowski", "Czaplicki"
             };
@@ -249,85 +249,140 @@ namespace Football_League.Repositories.Data
                 new 
                 {
                     Id = id++,
-                    Firstname = playersName[id-2],
-                    Lastname = playerLastname[id-2],
+                    Firstname = firstTeamPlayersFirstNames[id-2],
+                    Lastname = firstTeamPlayersLastNames[id-2],
                     TeamId = 11,
                     BirthDate = DateTime.Parse("1996-12-11")
                 },
                 new
                 {
                     Id = id++,
-                    Firstname = playersName[id - 2],
-                    Lastname = playerLastname[id - 2],
+                    Firstname = firstTeamPlayersFirstNames[id - 2],
+                    Lastname = firstTeamPlayersLastNames[id - 2],
                     TeamId = 11,
                     BirthDate = DateTime.Parse("1996-12-11")
                 },
                 new
                 {
                     Id = id++,
-                    Firstname = playersName[id - 2],
-                    Lastname = playerLastname[id - 2],
+                    Firstname = firstTeamPlayersFirstNames[id - 2],
+                    Lastname = firstTeamPlayersLastNames[id - 2],
                     TeamId = 11,
                     BirthDate = DateTime.Parse("1996-12-11")
                 },
                 new
                 {
                     Id = id++,
-                    Firstname = playersName[id - 2],
-                    Lastname = playerLastname[id - 2],
+                    Firstname = firstTeamPlayersFirstNames[id - 2],
+                    Lastname = firstTeamPlayersLastNames[id - 2],
                     TeamId = 11,
                     BirthDate = DateTime.Parse("1996-12-11")
                 },
                 new
                 {
                     Id = id++,
-                    Firstname = playersName[id - 2],
-                    Lastname = playerLastname[id - 2],
+                    Firstname = firstTeamPlayersFirstNames[id - 2],
+                    Lastname = firstTeamPlayersLastNames[id - 2],
                     TeamId = 11,
                     BirthDate = DateTime.Parse("1996-12-11")
                 },
                 new
                 {
                     Id = id++,
-                    Firstname = playersName[id - 2],
-                    Lastname = playerLastname[id - 2],
+                    Firstname = firstTeamPlayersFirstNames[id - 2],
+                    Lastname = firstTeamPlayersLastNames[id - 2],
                     TeamId = 11,
                     BirthDate = DateTime.Parse("1996-12-11")
                 },
                 new
                 {
                     Id = id++,
-                    Firstname = playersName[id - 2],
-                    Lastname = playerLastname[id - 2],
+                    Firstname = firstTeamPlayersFirstNames[id - 2],
+                    Lastname = firstTeamPlayersLastNames[id - 2],
                     TeamId = 11,
                     BirthDate = DateTime.Parse("1996-12-11")
                 },
                 new
                 {
                     Id = id++,
-                    Firstname = playersName[id - 2],
-                    Lastname = playerLastname[id - 2],
+                    Firstname = firstTeamPlayersFirstNames[id - 2],
+                    Lastname = firstTeamPlayersLastNames[id - 2],
                     TeamId = 11,
                     BirthDate = DateTime.Parse("1996-12-11")
                 },
                 new
                 {
                     Id = id++,
-                    Firstname = playersName[id - 2],
-                    Lastname = playerLastname[id - 2],
+                    Firstname = firstTeamPlayersFirstNames[id - 2],
+                    Lastname = firstTeamPlayersLastNames[id - 2],
                     TeamId = 11,
                     BirthDate = DateTime.Parse("1996-12-11")
                 },
                 new
                 {
                     Id = id++,
-                    Firstname = playersName[id - 2],
-                    Lastname = playerLastname[id - 2],
+                    Firstname = firstTeamPlayersFirstNames[id - 2],
+                    Lastname = firstTeamPlayersLastNames[id - 2],
                     TeamId = 11,
                     BirthDate = DateTime.Parse("1996-12-11")
                 }
-
             );
+
+            var secondTeamPlayersFirstNames = new List<string>
+            {
+                    "Cristiano", "Paulo", "Wojciech", "Giorgio", "João", "Juan", "Miralem", "Leonardo", "Alex", "Sami"
+            };
+            var secondTeamPlayersLastNames = new List<string>
+            {
+                    "Ronaldo", "Dybala", "Szczęsny", "Chiellini", "Cancelo", "Cuadrado", "Pjanić", "Bonucci", "Sandro", "Khedira"
+            };
+
+            var thirdTeamPlayersFirstNames = new List<string>
+            {
+                    "Thibaut", "Raphaël", "Sergio", "Daniel", "Marcelo", "Toni", "Luca", "Marco", "Gareth", "Karim"
+            };
+            var thirdTeamPlayersLastNames = new List<string>
+            {
+                    "Courtois", "Varane", "Ramos", "Carvajal", "", "Kroos", "Modrić", "Asensio", "Bale", "Benzema"
+            };
+
+            var forthTeamPlayersFirstNames = new List<string>
+            {
+                    "Marc-André", "Samuel", "Gerard", "Jordi", "Nélson", "Sergio", "Ivan", "Philippe", "Lionel", "Luis"
+            };
+            var forthTeamPlayersLastNames = new List<string>
+            {
+                    "ter Stegen", "Umtiti", "Piqué", "Alba", "Semedo", "Busquets", "Rakitic", "Coutinho", "Messi", "Suárez"
+            };
+
+            var fifthTeamPlayersFirstNames = new List<string>
+            {
+                    "Manuel", "Mats", "Jérôme", "David", "Joshua", "Arjen", "Leon", "James", "Thomas", "Robert"
+            };
+            var fifthTeamPlayersLastNames = new List<string>
+            {
+                    "Neuer", "Hummels", "Boateng", "Alaba", "Kimmich", "Robben", "Goretzka", "Rodriguez", "Müller", "Lewandowski"
+            };
+
+            var sixthTeamPlayersFirstNames = new List<string>
+            {
+                    "Ederson", "Nicolás", "Vincent", "Benjamin", "Kyle", "Ilkay", "Kevin", "David", "Leroy", "Sergio"
+            };
+            var sixthTeamPlayersLastNames = new List<string>
+            {
+                    "", "Otamendi", "Kompany", "Mendy", "Walker", "Gündogan", "De Bruyne", "Silva", "Sané", "Agüero"
+            };
+
+            var seventhTeamPlayersFirstNames = new List<string>
+            {
+                    "David", "Eric", "Chris", "Luke", "Antonio", "Paul", "Juan", "Anthony", "Alexis", "Romelu"
+            };
+            var seventhTeamPlayersLastNames = new List<string>
+            {
+                    "De Gea", "Bailly", "Smalling", "Shaw", "Valencia", "Pogba", "Mata", "Martial", "Sánchez", "Lukaku"
+            };
+
+
 
             base.OnModelCreating(modelBuilder);
         }
