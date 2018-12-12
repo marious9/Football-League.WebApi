@@ -6,7 +6,8 @@ namespace Football_League.Services.Services
 {
     public static class ServiceErrors
     {
-        
+        public const string STATISTIC_PLAYER_HAS_RED_CARD = "Zawodnik otrzymał czerwoną kartkę.";
+        public const string STATISTIC_SCORE_IS_NOT_ALLOW_TO_ADD_GOAL_ACTION = "Wynik meczu nie pozwala dodać tej akcji.";
         public const string STATISTIC_INVALID_ACTION = "Podana akcja nie istnieje.";
         public const string STATISTIC_DOES_NOT_EXIST = "Nie znaleziono statystyki.";
 

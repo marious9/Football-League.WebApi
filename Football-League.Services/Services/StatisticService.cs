@@ -152,21 +152,7 @@ namespace Football_League.Services.Services
 
         public async Task<ResponseDto<BaseModelDto>> InsertAsync(AddStatisticBindingModel model)
         {
-            var response = new ResponseDto<BaseModelDto>();
-
-            var action = new List<Models.Enums.Action>();
-
-            //try
-            //{
-            //    var actionType = (Models.Enums.Action)Enum.Parse(typeof(Models.Enums.Action), model.Action, true);
-            //    action.Add(actionType);
-            //}
-            //catch
-            //{
-            //    response.Errors.Add(ServiceErrors.STATISTIC_INVALID_ACTION);
-            //    return response;
-            //}
-                
+            var response = new ResponseDto<BaseModelDto>();           
 
             var match = _matchRepository.GetById(model.MatchId);
             if(match == null)
@@ -189,6 +175,18 @@ namespace Football_League.Services.Services
                 return response;
             }
 
+            if(ValidateMatchWithRedCardStatistic(matchPlayer, model) != String.Empty)
+            {
+                response.Errors.Add(ServiceErrors.STATISTIC_PLAYER_HAS_RED_CARD);
+                return response;
+            }
+
+            if (!ValidateMatchWithGoalAndAssistStatistic(match, player, model))
+            {
+                response.Errors.Add(ServiceErrors.STATISTIC_SCORE_IS_NOT_ALLOW_TO_ADD_GOAL_ACTION);
+                return response;
+            }
+
             var statistic = new Statistic
             {
                 MatchPlayer = matchPlayer,
@@ -199,6 +197,86 @@ namespace Football_League.Services.Services
             await _statisticRepository.InsertAsync(statistic);
 
             return response;
+        }
+
+        private string ValidateMatchWithRedCardStatistic(MatchPlayer matchPlayer, AddStatisticBindingModel model)
+        {
+            var playerHadRedCardBeforeGivenStatistic = matchPlayer.Statistics.Any(s => s.Action == Models.Enums.Action.RedCard && model.Minute > s.Minute);
+
+            if (playerHadRedCardBeforeGivenStatistic)
+            {
+                return ServiceErrors.STATISTIC_PLAYER_HAS_RED_CARD;
+                
+            }
+
+            var playerYellowCards = matchPlayer.Statistics.Where(s => s.Action == Models.Enums.Action.YellowCard).ToList();
+            if (playerYellowCards.Count == 2)
+            {
+
+                var sortedPlayerYellowCard = playerYellowCards.OrderBy(s => s.Minute).ToList();
+
+                var actionIsBeforeSecondYellowCard = model.Minute <= sortedPlayerYellowCard[1].Minute;
+
+                if (!actionIsBeforeSecondYellowCard)
+                {
+                    return ServiceErrors.STATISTIC_PLAYER_HAS_RED_CARD;
+                    
+                }
+            }
+
+            return "";
+        }
+
+        private bool ValidateMatchWithGoalAndAssistStatistic(Match match, Player player, AddStatisticBindingModel model)
+        {
+            var statisticsGoals = new List<int> { 0, 0 };
+            var statisticsAssists = new List<int> { 0, 0 };
+            var isValid = true;
+            foreach (var mPlayer in match.MatchPlayers)
+            {
+                if (mPlayer.Player.Team.Id == match.Host.Id)
+                {
+                    statisticsGoals[0] += mPlayer.Statistics.Where(s => s.Action == Models.Enums.Action.Goal).Count();
+                    statisticsAssists[0] += mPlayer.Statistics.Where(s => s.Action == Models.Enums.Action.Assist).Count();
+                }
+                else
+                {
+                    statisticsGoals[1] += mPlayer.Statistics.Where(s => s.Action == Models.Enums.Action.Goal).Count();
+
+                    statisticsAssists[1] += mPlayer.Statistics.Where(s => s.Action == Models.Enums.Action.Assist).Count();
+                }
+            }
+
+            var playerTeamIsHost = match.Host.Id == player.Team.Id;
+
+            var canAddGoal = false;
+
+            if (playerTeamIsHost && (statisticsGoals[0] < match.HostScore))
+            {
+                canAddGoal = true;
+            }
+            if (!playerTeamIsHost && (statisticsGoals[1] < match.AwayScore))
+            {
+                canAddGoal = true;
+            }
+
+            var canAddAssist = false;
+
+            if (playerTeamIsHost && (statisticsAssists[0] < match.HostScore))
+            {
+                canAddAssist = true;
+            }
+            if (!playerTeamIsHost && (statisticsAssists[1] < match.AwayScore))
+            {
+                canAddAssist = true;
+            }
+
+            if ((!canAddGoal && (model.Action == Models.Enums.Action.Goal)) || (!canAddAssist && (model.Action == Models.Enums.Action.Assist)))
+            {
+                isValid = false;                
+            }
+
+            return isValid;
         }
     }
 }

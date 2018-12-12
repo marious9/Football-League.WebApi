@@ -42,6 +42,21 @@ namespace Football_League.Services.Services
                 return response;
             }
 
+            var statisticsToDelete = new List<Statistic>();
+
+            foreach (var matchPlayer in match.MatchPlayers)
+            {
+                foreach (var stat in matchPlayer.Statistics)
+                {
+                    statisticsToDelete.Add(stat);
+                }
+            }
+
+            for (var i = statisticsToDelete.Count - 1; i >= 0; i--)
+            {
+                await _statisticRepository.DeleteAsync(statisticsToDelete[i]);
+            }
+
             await _matchRepository.DeleteAsync(match);
 
             return response;
@@ -56,16 +71,11 @@ namespace Football_League.Services.Services
             {
                 response.Errors.Add(ServiceErrors.MATCH_DOES_NOT_EXIST);
                 return response;
-            }
+            }            
 
-            var league = _leagueRepository.GetById(match.League.Id);
 
-            match.Date = model.Date;
-            match.HostScore = model.HostScore;
-            match.AwayScore = model.AwayScore;
 
             var statisticsToDelete = new List<Statistic>();
-
 
             foreach (var matchPlayer in match.MatchPlayers)
             {
@@ -79,6 +89,10 @@ namespace Football_League.Services.Services
             {
                 await _statisticRepository.DeleteAsync(statisticsToDelete[i]);
             }
+
+            match.Date = model.Date;
+            match.HostScore = model.HostScore;
+            match.AwayScore = model.AwayScore;
 
             await _matchRepository.EditAsync(match);
 
