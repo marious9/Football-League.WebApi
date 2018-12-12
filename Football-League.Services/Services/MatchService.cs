@@ -19,14 +19,16 @@ namespace Football_League.Services.Services
         private readonly IMatchRepository _matchRepository;
         private readonly ILeagueRepository _leagueRepository;
         private readonly IMapper _mapper;
+        private readonly IStatisticRepository _statisticRepository;
 
-        public MatchService(IMatchPlayerRepository matchPlayerRepository,IMatchRepository matchRepository, ILeagueRepository leagueRepository, ITeamRepository teamRepository, IMapper mapper)
+        public MatchService(IMatchPlayerRepository matchPlayerRepository,IMatchRepository matchRepository, ILeagueRepository leagueRepository, ITeamRepository teamRepository, IMapper mapper, IStatisticRepository statisticRepository)
         {
             _matchPlayerRepository = matchPlayerRepository;
             _teamRepository = teamRepository;
             _matchRepository = matchRepository;
             _leagueRepository = leagueRepository;
             _mapper = mapper;
+            _statisticRepository = statisticRepository;
         }
 
         public async Task<ResponseDto<BaseModelDto>> DeleteMatchAsync(int matchId)
@@ -58,12 +60,29 @@ namespace Football_League.Services.Services
 
             var league = _leagueRepository.GetById(match.League.Id);
 
-
             match.Date = model.Date;
             match.HostScore = model.HostScore;
             match.AwayScore = model.AwayScore;
 
+            var statisticsToDelete = new List<Statistic>();
+
+
+            foreach (var matchPlayer in match.MatchPlayers)
+            {
+                foreach (var stat in matchPlayer.Statistics)                    
+                    {
+                    statisticsToDelete.Add(stat);
+                    }
+            }
+
+            for(var i = statisticsToDelete.Count-1; i >= 0; i--)
+            {
+                await _statisticRepository.DeleteAsync(statisticsToDelete[i]);
+            }
+
             await _matchRepository.EditAsync(match);
+
+                    
 
             return response;
         }

@@ -223,17 +223,17 @@ namespace Football_League.Services.Services
                         HostScore = -1
                     });
 
-                    //await _matchRepository.InsertAsync(new Match
-                    //{
-                    //    Away = awayTeam,
-                    //    AwayScore = -1,
-                    //    Date = DateTime.Now.AddDays((schedule.IndexOf(queue)+1)*7),
-                    //    Round = schedule.IndexOf(queue),
-                    //    Host = hostTeam,
-                    //    HostScore = -1,
-                    //    League = league,
-                    //    MatchPlayers = matchPlayers
-                    //});
+                    await _matchRepository.InsertAsync(new Match
+                    {
+                        Away = awayTeam,
+                        AwayScore = -1,
+                        Date = DateTime.Now.AddDays((schedule.IndexOf(queue) + 1) * 7),
+                        Round = schedule.IndexOf(queue),
+                        Host = hostTeam,
+                        HostScore = -1,
+                        League = league,
+                        MatchPlayers = matchPlayers
+                    });
                 }
 
                 response.Object.Queue.Add(new MatchQueueDto
