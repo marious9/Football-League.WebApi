@@ -60,6 +60,20 @@ namespace Football_League.Api.Controllers
             return Ok(result);
         }
 
+
+        [HttpDelete("{statisticId}")]
+        public async Task<IActionResult> DeleteStatistic(int statisticId)
+        {
+            var result = await _statisticService.DeleteAsync(statisticId);
+
+            if (result.ErrorOccurred)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+
         [HttpPost]
         public async Task<IActionResult> InsertStatistic([FromBody]AddStatisticBindingModel model)
         {

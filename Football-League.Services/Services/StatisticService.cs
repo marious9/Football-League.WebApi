@@ -278,5 +278,20 @@ namespace Football_League.Services.Services
 
             return isValid;
         }
+
+        public async Task<ResponseDto<BaseModelDto>> DeleteAsync(int statisticId)
+        {
+            var response = new ResponseDto<BaseModelDto>();
+            var statistic = _statisticRepository.GetById(statisticId);     
+            if(statistic == null)
+            {
+                response.Errors.Add(ServiceErrors.STATISTIC_DOES_NOT_EXIST);
+                return response;
+            }
+
+            await _statisticRepository.DeleteAsync(statistic);
+
+            return response;
+        }
     }
 }

@@ -13,5 +13,6 @@ namespace Football_League.Services.Services.Interfaces
         ResponseDto<StatisticDto> GetStatistic(int statisticId);
         ResponseDto<MatchStatisticsDto> GetMatchStatistics(int matchId);
         ResponseDto<LeagueRankingDto> GetLeagueStatistics(int leagueId);
+        Task<ResponseDto<BaseModelDto>> DeleteAsync(int statisticId);
     }
 }

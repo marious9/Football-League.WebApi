@@ -84,25 +84,16 @@ namespace Football_League.Services.Services
 
         private int CountWins(IEnumerable<MatchDto> teamMatchesHost, IEnumerable<MatchDto> teamMatchesAway)
         {
-            if (teamMatchesHost.FirstOrDefault(m => m.HostScore == -1) != null || teamMatchesHost.FirstOrDefault(m => m.AwayScore == -1) != null)
-            {
-                return 0;
-            }
-            var hostWins = teamMatchesHost.Where(m => m.HostScore > m.AwayScore).Count();
-            var awayWins = teamMatchesAway.Where(m => m.HostScore < m.AwayScore).Count();
+            var hostWins = teamMatchesHost.Where(m => m.HostScore > m.AwayScore && m.HostScore != -1 && m.AwayScore != -1).Count();
+            var awayWins = teamMatchesAway.Where(m => m.HostScore < m.AwayScore && m.HostScore != -1 && m.AwayScore != -1).Count();
 
             return hostWins + awayWins;
         }
 
         private int CountDraws(IEnumerable<MatchDto> teamMatchesHost, IEnumerable<MatchDto> teamMatchesAway)
         {
-            if (teamMatchesHost.FirstOrDefault(m => m.HostScore == -1) != null || teamMatchesHost.FirstOrDefault(m => m.AwayScore == -1) != null)
-            {
-                return 0;
-            }
-
-            var hostDraws = teamMatchesHost.Where(m => m.HostScore == m.AwayScore).Count();
-            var awayDraws = teamMatchesAway.Where(m => m.HostScore == m.AwayScore).Count();
+            var hostDraws = teamMatchesHost.Where(m => m.HostScore == m.AwayScore && m.HostScore != -1 && m.AwayScore != -1).Count();
+            var awayDraws = teamMatchesAway.Where(m => m.HostScore == m.AwayScore && m.HostScore != -1 && m.AwayScore != -1).Count();
 
             return hostDraws + awayDraws;
 
@@ -110,39 +101,24 @@ namespace Football_League.Services.Services
 
         private int CountDefeats(IEnumerable<MatchDto> teamMatchesHost, IEnumerable<MatchDto> teamMatchesAway)
         {
-            if (teamMatchesHost.FirstOrDefault(m => m.HostScore == -1) != null || teamMatchesHost.FirstOrDefault(m => m.AwayScore == -1) != null)
-            {
-                return 0;
-            }
-
-            var hostLooses = teamMatchesHost.Where(m => m.HostScore < m.AwayScore).Count();
-            var awayLooses = teamMatchesAway.Where(m => m.HostScore > m.AwayScore).Count();
+            var hostLooses = teamMatchesHost.Where(m => m.HostScore < m.AwayScore && m.HostScore != -1 && m.AwayScore != -1).Count();
+            var awayLooses = teamMatchesAway.Where(m => m.HostScore > m.AwayScore && m.HostScore != -1 && m.AwayScore != -1).Count();
 
             return hostLooses + awayLooses;
         }
 
         private int CountScoredGoals(IEnumerable<MatchDto> teamMatchesHost, IEnumerable<MatchDto> teamMatchesAway)
         {
-            if (teamMatchesHost.FirstOrDefault(m => m.HostScore == -1) != null || teamMatchesHost.FirstOrDefault(m => m.AwayScore == -1) != null)
-            {
-                return 0;
-            }
-
-            var scoredAsHost = teamMatchesHost.Sum(m => m.HostScore);
-            var scoredAsAway = teamMatchesAway.Sum(m => m.AwayScore);
+            var scoredAsHost = teamMatchesHost.Where(m => m.HostScore != -1).Sum(m => m.HostScore);
+            var scoredAsAway = teamMatchesAway.Where(m => m.AwayScore != -1).Sum(m => m.AwayScore);
 
             return scoredAsHost + scoredAsAway;
         }
 
         private int CountLostGoals(IEnumerable<MatchDto> teamMatchesHost, IEnumerable<MatchDto> teamMatchesAway)
         {
-            if (teamMatchesHost.FirstOrDefault(m => m.HostScore == -1) != null || teamMatchesHost.FirstOrDefault(m => m.AwayScore == -1) != null)
-            {
-                return 0;
-            }
-
-            var lostAsHost = teamMatchesHost.Sum(m => m.AwayScore);
-            var lostAsAway = teamMatchesAway.Sum(m => m.HostScore);
+            var lostAsHost = teamMatchesHost.Where(m => m.AwayScore != -1).Sum(m => m.AwayScore);
+            var lostAsAway = teamMatchesAway.Where(m => m.HostScore != -1).Sum(m => m.HostScore);
 
             return lostAsHost + lostAsAway;
         }
