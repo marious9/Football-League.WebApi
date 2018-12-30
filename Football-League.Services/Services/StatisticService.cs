@@ -202,16 +202,25 @@ namespace Football_League.Services.Services
         private string ValidateMatchWithRedCardStatistic(MatchPlayer matchPlayer, AddStatisticBindingModel model)
         {
             var playerHadRedCardBeforeGivenStatistic = matchPlayer.Statistics.Any(s => s.Action == Models.Enums.Action.RedCard && model.Minute > s.Minute);
+            var playerHasRedCard = matchPlayer.Statistics.Any(s => s.Action == Models.Enums.Action.RedCard);
+            var playerYellowCards = matchPlayer.Statistics.Where(s => s.Action == Models.Enums.Action.YellowCard).ToList();
+
+            if (playerHasRedCard && playerYellowCards.Count == 1 && model.Action == Models.Enums.Action.YellowCard)
+            {
+                return ServiceErrors.STATISTIC_PLAYER_HAS_RED_CARD;
+            }
 
             if (playerHadRedCardBeforeGivenStatistic)
             {
-                return ServiceErrors.STATISTIC_PLAYER_HAS_RED_CARD;
-                
+                return ServiceErrors.STATISTIC_PLAYER_HAS_RED_CARD;                
             }
-
-            var playerYellowCards = matchPlayer.Statistics.Where(s => s.Action == Models.Enums.Action.YellowCard).ToList();
+            
             if (playerYellowCards.Count == 2)
             {
+                if(model.Action == Models.Enums.Action.YellowCard || model.Action == Models.Enums.Action.RedCard)
+                {
+                    return ServiceErrors.STATISTIC_PLAYER_HAS_RED_CARD;
+                }
 
                 var sortedPlayerYellowCard = playerYellowCards.OrderBy(s => s.Minute).ToList();
 

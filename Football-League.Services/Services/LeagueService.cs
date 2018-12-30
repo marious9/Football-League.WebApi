@@ -52,18 +52,18 @@ namespace Football_League.Services.Services
 
         public async Task<ResponseDto<BaseModelDto>> EditLeagueAsync(int leagueId, EditLeagueBindingModel model)
         {
-            var resposne = new ResponseDto<BaseModelDto>();
+            var response = new ResponseDto<BaseModelDto>();
 
             var league = _leagueRepository.GetById(leagueId);
             if(league == null)
             {
-                resposne.Errors.Add(ServiceErrors.LEAGUE_DOESNT_EXIST);
-                return resposne;
+                response.Errors.Add(ServiceErrors.LEAGUE_DOESNT_EXIST);
+                return response;
             }
-
+            league.Name = model.Name;
             await _leagueRepository.EditAsync(league);
 
-            return resposne;
+            return response;
         }
 
         public ResponseDto<LeagueDto> GetLeague(int leagueId)
