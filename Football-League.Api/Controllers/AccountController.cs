@@ -78,6 +78,18 @@ namespace Football_League.Api.Controllers
             return Ok(result);
         }
 
+        [HttpGet("GetAccount")]
+        public async Task<IActionResult> GetAccount()
+        {
+            var userId = User.Identity.Name;
+            var result = await _accountService.GetUser(userId);
+            if (result.ErrorOccurred)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+
         [HttpPost("EditProfile")]
         public async Task<IActionResult> EditProfile([FromBody] UserProfileBindingModel model)
         {
